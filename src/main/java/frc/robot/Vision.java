@@ -2,16 +2,9 @@ package frc.robot;
 
 import static frc.robot.Constants.Vision.*;
 
-import frc.robot.subsystems.drive.Drive;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -21,14 +14,19 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.simulation.PhotonCameraSim;
-import org.photonvision.simulation.SimCameraProperties;
 import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 
 public class Vision {
     private final PhotonCamera cameraFR;
-    private final PhotonPoseEstimator photonEstimator;
+    private final PhotonCamera cameraFL;
+    private final PhotonCamera cameraBR;
+    private final PhotonCamera cameraBL;
+    private final PhotonPoseEstimator photonEstimatorFR;
+    private final PhotonPoseEstimator photonEstimatorFL;
+    private final PhotonPoseEstimator photonEstimatorBR;
+    private final PhotonPoseEstimator photonEstimatorBL;
     private Matrix<N3, N1> curStdDevs;
     private final EstimateConsumer estConsumer;
 
@@ -43,15 +41,102 @@ public class Vision {
     public Vision(EstimateConsumer estConsumer) {
         this.estConsumer = estConsumer;
         cameraFR = new PhotonCamera(FrontRightCamera);
-        photonEstimator = new PhotonPoseEstimator(kTagLayout, kRobotToFrontRightCamera);
+        cameraFL = new PhotonCamera(FrontLeftCamera);
+        cameraBR = new PhotonCamera(BackRightCamera);
+        cameraBL = new PhotonCamera(BackLeftCamera);
+        photonEstimatorFR = new PhotonPoseEstimator(kTagLayout, kRobotToFrontRightCamera);
+        photonEstimatorFL = new PhotonPoseEstimator(kTagLayout, kRobotToFrontLeftCamera);
+        photonEstimatorBR = new PhotonPoseEstimator(kTagLayout, kRobotToBackRightCamera);
+        photonEstimatorBL = new PhotonPoseEstimator(kTagLayout, kRobotToBackLeftCamera);
     }
 
     public void periodic() {
         Optional<EstimatedRobotPose> visionEst = Optional.empty();
         for (var result : cameraFR.getAllUnreadResults()) {
-            visionEst = photonEstimator.estimateCoprocMultiTagPose(result);
+            visionEst = photonEstimatorFR.estimateCoprocMultiTagPose(result);
             if (visionEst.isEmpty()) {
-                visionEst = photonEstimator.estimateLowestAmbiguityPose(result);
+                visionEst = photonEstimatorFR.estimateLowestAmbiguityPose(result);
+            }
+            updateEstimationStdDevs(visionEst, result.getTargets());
+
+            if (Robot.isSimulation()) {
+                visionEst.ifPresentOrElse(
+                        est ->
+                                getSimDebugField()
+                                        .getObject("VisionEstimation")
+                                        .setPose(est.estimatedPose.toPose2d()),
+                        () -> {
+                            getSimDebugField().getObject("VisionEstimation").setPoses();
+                        });
+            }
+
+            visionEst.ifPresent(
+                    est -> {
+                        // Change our trust in the measurement based on the tags we can see
+                        var estStdDevs = getEstimationStdDevs();
+
+                        estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
+                         
+                    });
+        }
+        for (var result : cameraFL.getAllUnreadResults()) {
+            visionEst = photonEstimatorFL.estimateCoprocMultiTagPose(result);
+            if (visionEst.isEmpty()) {
+                visionEst = photonEstimatorFL.estimateLowestAmbiguityPose(result);
+            }
+            updateEstimationStdDevs(visionEst, result.getTargets());
+
+            if (Robot.isSimulation()) {
+                visionEst.ifPresentOrElse(
+                        est ->
+                                getSimDebugField()
+                                        .getObject("VisionEstimation")
+                                        .setPose(est.estimatedPose.toPose2d()),
+                        () -> {
+                            getSimDebugField().getObject("VisionEstimation").setPoses();
+                        });
+            }
+
+            visionEst.ifPresent(
+                    est -> {
+                        // Change our trust in the measurement based on the tags we can see
+                        var estStdDevs = getEstimationStdDevs();
+
+                        estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
+                         
+                    });
+        }
+        for (var result : cameraBL.getAllUnreadResults()) {
+            visionEst = photonEstimatorBL.estimateCoprocMultiTagPose(result);
+            if (visionEst.isEmpty()) {
+                visionEst = photonEstimatorBL.estimateLowestAmbiguityPose(result);
+            }
+            updateEstimationStdDevs(visionEst, result.getTargets());
+
+            if (Robot.isSimulation()) {
+                visionEst.ifPresentOrElse(
+                        est ->
+                                getSimDebugField()
+                                        .getObject("VisionEstimation")
+                                        .setPose(est.estimatedPose.toPose2d()),
+                        () -> {
+                            getSimDebugField().getObject("VisionEstimation").setPoses();
+                        });
+            }
+
+            visionEst.ifPresent(
+                    est -> {
+                        // Change our trust in the measurement based on the tags we can see
+                        var estStdDevs = getEstimationStdDevs();
+
+                        estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
+                         
+                    });
+        }
+        for (var result : cameraBR.getAllUnreadResults()) {
+            visionEst = photonEstimatorBR.estimateCoprocMultiTagPose(result);
+            if (visionEst.isEmpty()) {
+                visionEst = photonEstimatorBR.estimateLowestAmbiguityPose(result);
             }
             updateEstimationStdDevs(visionEst, result.getTargets());
 
@@ -98,16 +183,61 @@ public class Vision {
 
             // Precalculation - see how many tags we found, and calculate an average-distance metric
             for (var tgt : targets) {
-                var tagPose = photonEstimator.getFieldTags().getTagPose(tgt.getFiducialId());
-                if (tagPose.isEmpty()) continue;
+                var tagPoseFR = photonEstimatorFR.getFieldTags().getTagPose(tgt.getFiducialId());
+
+                if (tagPoseFR.isEmpty()) continue;
                 numTags++;
+
                 avgDist +=
-                        tagPose
+                        tagPoseFR
                                 .get()
                                 .toPose2d()
                                 .getTranslation()
                                 .getDistance(estimatedPose.get().estimatedPose.toPose2d().getTranslation());
             }
+
+            for (var tgt : targets) {
+                var tagPoseFL = photonEstimatorFL.getFieldTags().getTagPose(tgt.getFiducialId());
+
+                if (tagPoseFL.isEmpty()) continue;
+                numTags++;
+
+                avgDist +=
+                        tagPoseFL
+                                .get()
+                                .toPose2d()
+                                .getTranslation()
+                                .getDistance(estimatedPose.get().estimatedPose.toPose2d().getTranslation());
+            }
+
+            for (var tgt : targets) {
+                var tagPoseBR = photonEstimatorBR.getFieldTags().getTagPose(tgt.getFiducialId());
+
+                if (tagPoseBR.isEmpty()) continue;
+                numTags++;
+
+                avgDist +=
+                        tagPoseBR
+                                .get()
+                                .toPose2d()
+                                .getTranslation()
+                                .getDistance(estimatedPose.get().estimatedPose.toPose2d().getTranslation());
+            }
+
+            for (var tgt : targets) {
+                var tagPoseBL = photonEstimatorBL.getFieldTags().getTagPose(tgt.getFiducialId());
+
+                if (tagPoseBL.isEmpty()) continue;
+                numTags++;
+
+                avgDist +=
+                        tagPoseBL
+                                .get()
+                                .toPose2d()
+                                .getTranslation()
+                                .getDistance(estimatedPose.get().estimatedPose.toPose2d().getTranslation());
+            }
+
 
             if (numTags == 0) {
                 // No tags visible. Default to single-tag std devs

@@ -67,6 +67,8 @@ public class DriveCommands {
       DoubleSupplier omegaSupplier) {
     return Commands.run(
         () -> {
+
+          SlewRateLimiter filter = new SlewRateLimiter(0.25);
           // Get linear velocity
           Translation2d linearVelocity =
               getLinearVelocityFromJoysticks(xSupplier.getAsDouble(), ySupplier.getAsDouble());
@@ -77,19 +79,26 @@ public class DriveCommands {
           // Square rotation value for more precise control
           omega = Math.copySign(omega * omega, omega);
 
+          //Convert linear Velocity X and Y to a double
           double linearVelocityX = linearVelocity.getX();
           double linearVelocityY = linearVelocity.getY();
 
+          //Square the double for more precise control
           double linearExponentialVelocityX =
               Math.copySign(linearVelocityX * linearVelocityX, linearVelocityX);
+
           double linearExponentialVelocityY =
               Math.copySign(linearVelocityY * linearVelocityY, linearVelocityY);
 
+          //Apply a Slew rate limiter
+          double linearFilteredExponentialVelocityX = filter.calculate(linearExponentialVelocityX);
+          double linearFilteredExponentialVelocityY = filter.calculate(linearExponentialVelocityY);
+          
           // Convert to field relative speeds & send command
           ChassisSpeeds speeds =
               new ChassisSpeeds(
-                  linearExponentialVelocityX * drive.getMaxLinearSpeedMetersPerSec(),
-                  linearExponentialVelocityY * drive.getMaxLinearSpeedMetersPerSec(),
+                  linearFilteredExponentialVelocityX * drive.getMaxLinearSpeedMetersPerSec(),
+                  linearFilteredExponentialVelocityY * drive.getMaxLinearSpeedMetersPerSec(),
                   omega * drive.getMaxAngularSpeedRadPerSec());
           boolean isFlipped =
               DriverStation.getAlliance().isPresent()

@@ -25,30 +25,30 @@ import edu.wpi.first.wpilibj.RobotBase;
  */
 public final class Constants {
   public static class Vision {
-        public static final String FrontRightCamera = "FrontRightCamera";
-        public static final String FrontLeftCamera = "FrontLeftCamera";
-        public static final String BackRightCamera = "BackRightCamera";
-        public static final String BackLeftCamera = "BackLeftCamera";
+    public static final String FrontRightCamera = "FrontRightCamera";
+    public static final String FrontLeftCamera = "FrontLeftCamera";
+    public static final String BackRightCamera = "BackRightCamera";
+    public static final String BackLeftCamera = "BackLeftCamera";
 
-        // Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-        public static final Transform3d kRobotToFrontRightCamera =
-                new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
-        public static final Transform3d kRobotToFrontLeftCamera =
-                new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
-        public static final Transform3d kRobotToBackRightCamera =
-                new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
-        public static final Transform3d kRobotToBackLeftCamera =
-                new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
+    // Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+    public static final Transform3d kRobotToFrontRightCamera =
+        new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
+    public static final Transform3d kRobotToFrontLeftCamera =
+        new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
+    public static final Transform3d kRobotToBackRightCamera =
+        new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
+    public static final Transform3d kRobotToBackLeftCamera =
+        new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
 
-        // The layout of the AprilTags on the field
-        public static final AprilTagFieldLayout kTagLayout =
-                AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+    // The layout of the AprilTags on the field
+    public static final AprilTagFieldLayout kTagLayout =
+        AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
-        // The standard deviations of our vision estimated poses, which affect correction rate
-        // (Fake values. Experiment and determine estimation noise on an actual robot.)
-        public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
-        public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
-    }
+    // The standard deviations of our vision estimated poses, which affect correction rate
+    // (Fake values. Experiment and determine estimation noise on an actual robot.)
+    public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
+    public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+  }
 
   public static class IntakeConstants {
     public static final int kIntakeMotor = 35;
@@ -62,12 +62,49 @@ public final class Constants {
 
     public static final String canbusName = "rio";
 
-    public static final int kIntakeStatorCurrentLimit = 10;//10 Amps should be good for stator according to Mr. Zog. Regardless, might be temporary.
-    public static final int kIntakeSupplyCurrentLimit = 10;//Supply should at the very least the same value as stator, given that it determines
-                                                        //how much current can be drawn from the battery.
+    public static final int kIntakeStatorCurrentLimit =
+        10; // 10 Amps should be good for stator according to Mr. Zog. Regardless, might be
+    // temporary.
+    public static final int kIntakeSupplyCurrentLimit =
+        10; // Supply should at the very least the same value as stator, given that it determines
+    // how much current can be drawn from the battery.
   }
 
-  public static class CanbusName{
+  public static final class ClimbConstants{
+    public static final int kClimbMotor = 30;//idk wht ids we;re using for this yet
+    public static final int kClimbCANcoder = 31;
+
+    public static final double kClimbUpSpeed = -0.2;
+    public static final double kClimbDownSpeed = 0.2;
+
+    //pid configuration - not sure what values we need
+    public static final double kClimbControllerP = 2.4;//need error in pose
+    public static final double kClimbControllerI = 0;//need integrated error
+    public static final double kClimbControllerD = 1;//need derivtive of error
+    public static final double kClimbControllerS = 0;//Add 0.25 V to overcome static friction
+    public static final double kCLimbControllerG = 0;//output to overcome gravity, can be found
+    public static final double kClimbControllerV = 0;//1rps = 0.12V output
+    public static final double kClimbControllerA = 0;//do i need this
+
+    public static final double kClimbCANCoderConversionFactor = 1.0/360;//cancoder absolute position uses a range of -0.5 to 0.5
+    public static final double kClimbPositionTolerance = .015;//in rotations of arm motor
+
+      //temp values might change depending on how fast we want the climber to climb
+    public static final double kMotionMagicCruiseVelocity = 80; // Units: rotations/sec
+    public static final double kMotionMagicAcceleration = 160; // Units: rotations/sec^2
+    public static final double kMotionMagicJerk = 1600;
+
+    //elevator positions in degrees--how many revolutions would motor need to climb?
+    public static final int kClimbPoseStart = 0;//temp values
+    public static final int kClimbPoseRetracted = 0;
+
+    //current limits in Amps - zog said 25 would be good i have an actual value
+    public static final int kClimbCurrentStatorLimit = 25;//nts when returning, stator and supply docs
+    public static final int kClimbCurrentSupplyLimit = 25;
+
+  }
+
+  public static class CanbusName {
     public static final String rioCANBus = "rio";
   }
 

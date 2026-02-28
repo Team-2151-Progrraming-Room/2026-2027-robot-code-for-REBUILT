@@ -27,14 +27,14 @@ public class TunerConstantsBLBR {
           .withKP(100)
           .withKI(0)
           .withKD(0.5)
-          .withKS(0.08)
-          .withKV(0.05)
+          .withKS(0.1)
+          .withKV(2.33)
           .withKA(0)
           .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
   // When using closed-loop control, the drive motor uses the control
   // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
   private static final Slot0Configs driveGains =
-      new Slot0Configs().withKP(0.1).withKI(0).withKD(0).withKS(0.11706).withKV(0.60996);
+      new Slot0Configs().withKP(0.1).withKI(0).withKD(0).withKS(0).withKV(0.124);
 
   // The closed-loop output type to use for the steer motors;
   // This affects the PID/FF gains for the steer motors
@@ -76,7 +76,7 @@ public class TunerConstantsBLBR {
 
   // CAN bus that the devices are located on;
   // All swerve devices must share the same CAN bus
-  public static final CANBus kCANBus = new CANBus("CANIVORE", "./logs/example.hoot");
+  public static final CANBus kCANBus = new CANBus("CANivore", "./logs/example.hoot");
 
   // Theoretical free speed (m/s) at 12 V applied output;
   // This needs to be tuned to your individual robot
@@ -86,14 +86,14 @@ public class TunerConstantsBLBR {
   // This may need to be tuned to your individual robot
   private static final double kCoupleRatio = 3.125;
 
-  private static final double kDriveGearRatio = 6.12;
-  private static final double kSteerGearRatio = 150 / 7;
+  private static final double kDriveGearRatio = 5.357142857142857;
+  private static final double kSteerGearRatio = 18.75;
   private static final Distance kWheelRadius = Inches.of(1.92);
 
   private static final boolean kInvertLeftSide = false;
   private static final boolean kInvertRightSide = true;
 
-  private static final int kPigeonId = 10;
+  private static final int kPigeonId = 18;
 
   // These are only used for simulation
   private static final MomentOfInertia kSteerInertia = KilogramSquareMeters.of(0.01);
@@ -135,26 +135,26 @@ public class TunerConstantsBLBR {
               .withDriveFrictionVoltage(kDriveFrictionVoltage);
 
   // Back Left
-  private static final int kBackLeftDriveMotorId = 11;
-  private static final int kBackLeftSteerMotorId = 12;
-  private static final int kBackLeftEncoderId = 13;
-  private static final Angle kBackLeftEncoderOffset = Rotations.of(-0.35888671875);
+  private static final int kBackLeftDriveMotorId = 7;
+  private static final int kBackLeftSteerMotorId = 8;
+  private static final int kBackLeftEncoderId = 6;
+  private static final Angle kBackLeftEncoderOffset = Rotations.of(-0.325927734375);
   private static final boolean kBackLeftSteerMotorInverted = true;
   private static final boolean kBackLeftEncoderInverted = false;
 
-  private static final Distance kBackLeftXPos = Inches.of(-11.5);
-  private static final Distance kBackLeftYPos = Inches.of(11.5);
+  private static final Distance kBackLeftXPos = Inches.of(-10.25);
+  private static final Distance kBackLeftYPos = Inches.of(11.8125);
 
   // Back Right
-  private static final int kBackRightDriveMotorId = 14;
-  private static final int kBackRightSteerMotorId = 15;
-  private static final int kBackRightEncoderId = 16;
-  private static final Angle kBackRightEncoderOffset = Rotations.of(-0.39501953125);
+  private static final int kBackRightDriveMotorId = 11;
+  private static final int kBackRightSteerMotorId = 10;
+  private static final int kBackRightEncoderId = 9;
+  private static final Angle kBackRightEncoderOffset = Rotations.of(0.098388671875);
   private static final boolean kBackRightSteerMotorInverted = true;
   private static final boolean kBackRightEncoderInverted = false;
 
-  private static final Distance kBackRightXPos = Inches.of(-11.5);
-  private static final Distance kBackRightYPos = Inches.of(-11.5);
+  private static final Distance kBackRightXPos = Inches.of(-10.25);
+  private static final Distance kBackRightYPos = Inches.of(-11.8125);
 
   public static final SwerveModuleConstants<
           TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>
@@ -187,10 +187,11 @@ public class TunerConstantsBLBR {
    * Creates a CommandSwerveDrivetrain instance. This should only be called once in your robot
    * program,.
    */
-  /**
-   * public static CommandSwerveDrivetrain createDrivetrain() { return new CommandSwerveDrivetrain(
-   * DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight ); }
-   */
+  // public static CommandSwerveDrivetrain createDrivetrain() {
+  //  return new CommandSwerveDrivetrain(
+  //   DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight
+  // );
+  // }
 
   /** Swerve Drive class utilizing CTR Electronics' Phoenix 6 API with the selected device types. */
   public static class TunerSwerveDrivetrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> {

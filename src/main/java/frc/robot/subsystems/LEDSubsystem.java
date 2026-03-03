@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.Commands;
 
 /* 
 in case we decide to make our own constants
@@ -54,8 +53,9 @@ public class LEDSubsystem extends SubsystemBase {
         setLedDefault();
     }
 
- // methods
+ // METHODS //
 
+    // returns number of LEDs
     public int getNumLEDS() {
         return buffer.getLength();
     }
@@ -79,19 +79,23 @@ public class LEDSubsystem extends SubsystemBase {
                 scaleBrightness(b));
     }
 
+    // sets brightness for an individual LED
     public void setLedBrightness(int brightness) {
         this.brightness = Math.max(0, Math.min(255, brightness));
     }
 
+    // sets to new pattern (does not change RGB or apply changes)
     public void setLedPattern(LEDPattern pattern) {
         currentPattern = pattern;
     }
 
+    // sets to default LED state (solid blue)
     public void setLedDefault() {
         setAllLedsRGB(defaultR, defaultG, defaultB);
     }
 
     // updates the LEDs depending on the current pattern selected
+    // can be added onto/changed if more states are needed or different colors/patterns are wanted
     private void updatePattern() {
         switch (currentPattern) {
 
@@ -124,6 +128,7 @@ public class LEDSubsystem extends SubsystemBase {
         }
     }
 
+    // sets to a solid RGB color
     private void setSolidColor() {
         for (int i = 0; i < buffer.getLength(); i++) {
             buffer.setRGB(i,
@@ -133,17 +138,19 @@ public class LEDSubsystem extends SubsystemBase {
         }
     }
 
-    // scales an rgb value based on current brightness
+    // scales an RGB value based on current brightness
     private int scaleBrightness(int value) {
         return (value * brightness) / 255;
     }
 
- // commands
+ // COMMANDS //
 
+    // default, solid blue display
     public Command ledDefaultCommand() {
         return run(() -> setLedDefault());
     }
 
+    // sets all LEDs to same RGB
     public Command setAllLedsRGBCommand(int r, int g, int b) {
         return run(() -> setAllLedsRGB(r, g, b));
     }
@@ -166,12 +173,15 @@ public class LEDSubsystem extends SubsystemBase {
           .finallyDo((interrupted) -> setLedDefault());
     }
 
+    /* likely not needed, so I commented it out 
+
     // post shoot, set to a rainbow display
     public Command ledPostShootCommand() {
         return runOnce(() -> setLedPattern(LEDPattern.RAINBOW))
                 .andThen(Commands.waitSeconds(1.5))
                 .andThen(runOnce(() -> setLedDefault()));
     }
+    */
 
     // updates pattern and sends data to LED strip
     @Override

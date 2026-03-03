@@ -27,14 +27,15 @@ import frc.robot.subsystems.drive.Drive;
  * project.
  */
 public class Robot extends LoggedRobot {
-  private Drive drivetrain;
-  private Vision vision;
   private Command autonomousCommand;
   private RobotContainer robotContainer;
+  private Drive drivetrain;
+  private Vision vision;
   PhotonCamera FrontLeftCamera = new PhotonCamera("FrontLeftCamera");
   PhotonCamera FrontRightCamera = new PhotonCamera("FrontRightCamera");
   PhotonCamera BackLeftCamera = new PhotonCamera("BackLeftCamera");
   PhotonCamera BackRightCamera = new PhotonCamera("BackRightCamera");
+
 
   public Robot() {
     // Record metadata
@@ -88,7 +89,6 @@ public class Robot extends LoggedRobot {
   /** This function is called periodically during all modes. */
   @Override
   public void robotPeriodic() {
-    //lowkirkuenly updates ts pretty often
     drivetrain.periodic();
     vision.periodic();
     // Optionally switch the thread to high priority to improve loop
@@ -165,5 +165,4 @@ public class Robot extends LoggedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
-
 }

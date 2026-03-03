@@ -30,7 +30,7 @@ public class Vision {
   private final EstimateConsumer estConsumer;
 
   // Simulation
-  private PhotonCameraSim cameraSim;
+  //private PhotonCameraSim cameraSim;
   private VisionSystemSim visionSim;
 
   /**

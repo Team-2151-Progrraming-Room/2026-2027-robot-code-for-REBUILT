@@ -13,7 +13,6 @@ import java.util.Optional;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.simulation.PhotonCameraSim;
 import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -30,7 +29,7 @@ public class Vision {
   private final EstimateConsumer estConsumer;
 
   // Simulation
-  //private PhotonCameraSim cameraSim;
+  // private PhotonCameraSim cameraSim;
   private VisionSystemSim visionSim;
 
   /**

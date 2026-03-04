@@ -7,10 +7,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.drive.Drive;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -18,7 +17,6 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.photonvision.PhotonCamera;
-import frc.robot.subsystems.drive.Drive;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -35,7 +33,6 @@ public class Robot extends LoggedRobot {
   PhotonCamera FrontRightCamera = new PhotonCamera("FrontRightCamera");
   PhotonCamera BackLeftCamera = new PhotonCamera("BackLeftCamera");
   PhotonCamera BackRightCamera = new PhotonCamera("BackRightCamera");
-
 
   public Robot() {
     // Record metadata
@@ -81,8 +78,6 @@ public class Robot extends LoggedRobot {
     // and put our autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
 
-    //vision to drivetrain code
-    drivetrain = new Drive(null, null, null, null, null);
     vision = new Vision(drivetrain::addVisionMeasurement);
   }
 

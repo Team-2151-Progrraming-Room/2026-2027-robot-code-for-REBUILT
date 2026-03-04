@@ -58,8 +58,10 @@ public class Drive extends SubsystemBase {
               Math.hypot(TunerConstants.FrontLeft.LocationX, TunerConstants.FrontLeft.LocationY),
               Math.hypot(TunerConstants.FrontRight.LocationX, TunerConstants.FrontRight.LocationY)),
           Math.max(
-              Math.hypot(TunerConstantsBLBR.BackLeft.LocationX, TunerConstantsBLBR.BackLeft.LocationY),
-              Math.hypot(TunerConstantsBLBR.BackRight.LocationX, TunerConstantsBLBR.BackRight.LocationY)));
+              Math.hypot(
+                  TunerConstantsBLBR.BackLeft.LocationX, TunerConstantsBLBR.BackLeft.LocationY),
+              Math.hypot(
+                  TunerConstantsBLBR.BackRight.LocationX, TunerConstantsBLBR.BackRight.LocationY)));
 
   // PathPlanner config constants
   private static final double ROBOT_MASS_KG = 74.088;
@@ -353,8 +355,10 @@ public class Drive extends SubsystemBase {
     return new Translation2d[] {
       new Translation2d(TunerConstants.FrontLeft.LocationX, TunerConstants.FrontLeft.LocationY),
       new Translation2d(TunerConstants.FrontRight.LocationX, TunerConstants.FrontRight.LocationY),
-      new Translation2d(TunerConstantsBLBR.BackLeft.LocationX, TunerConstantsBLBR.BackLeft.LocationY),
-      new Translation2d(TunerConstantsBLBR.BackRight.LocationX, TunerConstantsBLBR.BackRight.LocationY)
+      new Translation2d(
+          TunerConstantsBLBR.BackLeft.LocationX, TunerConstantsBLBR.BackLeft.LocationY),
+      new Translation2d(
+          TunerConstantsBLBR.BackRight.LocationX, TunerConstantsBLBR.BackRight.LocationY)
     };
   }
 }

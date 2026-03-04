@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-// imports
+// IMPORTS // 
 
 import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj.AddressableLED;
@@ -34,7 +34,7 @@ public class LEDSubsystem extends SubsystemBase {
     private int solidG = defaultG;
     private int solidB = defaultB;
 
-    // three different states for LEDs, can add more if needed
+    // three different patterns for LEDs, can add more if needed
     public enum LEDPattern {
         SOLID,
         BLINK,
@@ -84,7 +84,7 @@ public class LEDSubsystem extends SubsystemBase {
         this.brightness = Math.max(0, Math.min(255, brightness));
     }
 
-    // sets to new pattern (does not change RGB or apply changes)
+    // sets the active pattern (RGB stays the same until next periodic)
     public void setLedPattern(LEDPattern pattern) {
         currentPattern = pattern;
     }
@@ -118,6 +118,7 @@ public class LEDSubsystem extends SubsystemBase {
                 }
                 break;
             // shifts hue over time to create rainbow pattern
+            // rainbow pattern currently not in use, may be removed if desired or used to define another state
             case RAINBOW:
                 double hueShift = (Timer.getFPGATimestamp() * 50) % 180;
                 for (int i = 0; i < buffer.getLength(); i++) {

@@ -78,6 +78,7 @@ public class Robot extends LoggedRobot {
     // and put our autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
 
+    // vision to drivetrain code
     vision = new Vision(drivetrain::addVisionMeasurement);
   }
 

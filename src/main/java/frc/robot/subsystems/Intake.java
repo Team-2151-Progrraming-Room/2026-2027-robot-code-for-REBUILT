@@ -8,13 +8,11 @@ import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.CanbusName;
 import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
 
-  private final TalonFXS m_IntakeMotor =
-      new TalonFXS(IntakeConstants.kIntakeMotor, CanbusName.rioCANBus);
+  private final TalonFXS m_IntakeMotor = new TalonFXS(IntakeConstants.kIntakeMotor);
   private final TalonFXSConfiguration configs = new TalonFXSConfiguration();
   private final CurrentLimitsConfigs IntakeLimitConfigs = new CurrentLimitsConfigs();
 

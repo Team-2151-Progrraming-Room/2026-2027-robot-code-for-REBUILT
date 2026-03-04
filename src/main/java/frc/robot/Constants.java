@@ -51,16 +51,7 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    public static final int kIntakeMotor = 35;
-
-    public static final double kIntakeMotorSpeed = 0.5;
-    public static final double kIntakeIntakeSpeed = -0.5;
-    public static final double kIntakeDefaultSpeed = -0.1;
-
-    public static final double kIntakeOutputTime = 1.5;
-    public static final double kIntakeIntakeTime = 1;
-
-    public static final String canbusName = "rio";
+    public static final int kIntakeMotor = 14;
 
     public static final int kIntakeStatorCurrentLimit =
         10; // 10 Amps should be good for stator according to Mr. Zog. Regardless, might be

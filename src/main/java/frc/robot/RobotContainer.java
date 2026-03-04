@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.Vision.*;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -36,6 +38,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Vision vision;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -57,6 +60,8 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.FrontRight),
                 new ModuleIOTalonFX(TunerConstantsBLBR.BackLeft),
                 new ModuleIOTalonFX(TunerConstantsBLBR.BackRight));
+
+        vision = new Vision(drive::addVisionMeasurement);
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -86,6 +91,8 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.FrontRight),
                 new ModuleIOSim(TunerConstantsBLBR.BackLeft),
                 new ModuleIOSim(TunerConstantsBLBR.BackRight));
+
+        vision = new Vision(drive::addVisionMeasurement);
         break;
 
       default:
@@ -97,6 +104,8 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
+
+        vision = new Vision(drive::addVisionMeasurement);
         break;
     }
 
@@ -149,7 +158,7 @@ public class RobotContainer {
                 () -> Rotation2d.kZero));
 
     // Switch to X pattern when X button is pressed
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    // controller.x().onTrue(Commands.run(Intake::IntakeOffCommand, Intake));
 
     // Reset gyro to 0° when B button is pressed
     controller

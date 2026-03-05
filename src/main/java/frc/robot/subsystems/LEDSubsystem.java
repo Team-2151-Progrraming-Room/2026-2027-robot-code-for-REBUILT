@@ -38,8 +38,7 @@ public class LEDSubsystem extends SubsystemBase {
     public enum LEDPattern {
         SOLID,
         BLINK,
-        PULSE,
-        // RAINBOW
+        PULSE
     }
 
     // constructor
@@ -130,17 +129,6 @@ public class LEDSubsystem extends SubsystemBase {
                 (solidB * pulseBrightness) / 255);
                 }
                 break;
-
-            // shifts hue over time to create rainbow pattern
-            /*  rainbow pattern currently not in use, may be removed if desired or used to define another state
-            case RAINBOW:
-                double hueShift = (Timer.getFPGATimestamp() * 50) % 180;
-                for (int i = 0; i < buffer.getLength(); i++) {
-                    int hue = (int)((i * 180 / buffer.getLength() + hueShift) % 180);
-                    buffer.setHSV(i, hue, 255, brightness);
-                }
-                break;
-                */
         }
     }
 
@@ -212,16 +200,6 @@ public class LEDSubsystem extends SubsystemBase {
          setLedPattern(LEDPattern.PULSE);
         });
     }
-
-    /* likely not needed, so I commented it out 
-
-    // post shoot, set to a rainbow display
-    public Command ledPostShootCommand() {
-        return runOnce(() -> setLedPattern(LEDPattern.RAINBOW))
-                .andThen(Commands.waitSeconds(1.5))
-                .andThen(runOnce(() -> setLedDefault()));
-    }
-    */
 
     // updates pattern and sends data to LED strip
     @Override

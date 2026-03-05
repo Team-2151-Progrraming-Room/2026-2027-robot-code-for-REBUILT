@@ -47,6 +47,8 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
+
+  //Commands *luis is listening to top 10 ncs intro/outro songs while im writing ts*
   private final IntakeCommands Charlie = new IntakeCommands();
   private final Command George = Charlie.intakeOffCommand();
   private final Command Jason = Charlie.intakeOnCommand();

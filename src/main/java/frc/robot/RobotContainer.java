@@ -23,11 +23,13 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstantsBLBR;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import frc.robot.commands.IntakeCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -45,6 +47,10 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
+  private final IntakeCommands Charlie = new IntakeCommands();
+  private final Command George = Charlie.intakeOffCommand();
+  private final Command Jason = Charlie.intakeOnCommand();
+  private final Command Luis = Charlie.intakeReverseCommand();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -158,7 +164,9 @@ public class RobotContainer {
                 () -> Rotation2d.kZero));
 
     // Switch to X pattern when X button is pressed
-    // controller.x().onTrue(Commands.run(Intake::IntakeOffCommand, Intake));
+    controller.y().onTrue((George));
+    controller.x().onTrue((Jason));
+    controller.b().onTrue((Luis));
 
     // Reset gyro to 0° when B button is pressed
     controller

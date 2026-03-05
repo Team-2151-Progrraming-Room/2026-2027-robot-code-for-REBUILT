@@ -25,9 +25,9 @@ public class LEDSubsystem extends SubsystemBase {
 
     private int brightness = 255;
 
-    private int defaultR = 0;
+    private int defaultR = 128;
     private int defaultG = 0;
-    private int defaultB = 255; // set default color to blue
+    private int defaultB = 128; // set default color to purple
 
     private LEDPattern currentPattern = LEDPattern.SOLID;
     private int solidR = defaultR;
@@ -38,7 +38,8 @@ public class LEDSubsystem extends SubsystemBase {
     public enum LEDPattern {
         SOLID,
         BLINK,
-        RAINBOW
+        PULSE,
+        // RAINBOW
     }
 
     // constructor
@@ -98,7 +99,7 @@ public class LEDSubsystem extends SubsystemBase {
     // can be added onto/changed if more states are needed or different colors/patterns are wanted
     private void updatePattern() {
         switch (currentPattern) {
-
+            // solid RGB color for LEDs
             case SOLID:
                 setSolidColor();
                 break;
@@ -117,8 +118,21 @@ public class LEDSubsystem extends SubsystemBase {
                     }
                 }
                 break;
+            // LED brightness level shifts between bright and dim
+            case PULSE:
+                double time = Timer.getFPGATimestamp();
+                double wave = (Math.sin(time * 2) + 1) / 2.0; 
+                int pulseBrightness = (int)(wave * brightness);
+                for (int i = 0; i < buffer.getLength(); i++) {
+                buffer.setRGB(i,
+                (solidR * pulseBrightness) / 255,
+                (solidG * pulseBrightness) / 255,
+                (solidB * pulseBrightness) / 255);
+                }
+                break;
+
             // shifts hue over time to create rainbow pattern
-            // rainbow pattern currently not in use, may be removed if desired or used to define another state
+            /*  rainbow pattern currently not in use, may be removed if desired or used to define another state
             case RAINBOW:
                 double hueShift = (Timer.getFPGATimestamp() * 50) % 180;
                 for (int i = 0; i < buffer.getLength(); i++) {
@@ -126,6 +140,7 @@ public class LEDSubsystem extends SubsystemBase {
                     buffer.setHSV(i, hue, 255, brightness);
                 }
                 break;
+                */
         }
     }
 
@@ -172,6 +187,30 @@ public class LEDSubsystem extends SubsystemBase {
             }
         }).until(() -> !inRange.getAsBoolean())
           .finallyDo((interrupted) -> setLedDefault());
+    }
+
+    // intaking, set to a solid blue display when intake is active
+    public Command ledActiveIntakingCommand() {
+        return run(() -> {
+         setAllLedsRGB(0, 0, 255); 
+         });
+    }
+
+    // snowblowing, set to a solid white display when intake is snowblowing
+    public Command ledActiveSnowblowingCommand() {
+         return run(() -> {
+         setAllLedsRGB(255, 255, 255); 
+        });
+    } 
+
+    // bootup, set to a purple pulse display when robot is on but not in either auto or teleop modes
+    public Command ledBootupCommand() {
+         return run(() -> {
+         solidR = 128;
+         solidG = 0;
+         solidB = 128;
+         setLedPattern(LEDPattern.PULSE);
+        });
     }
 
     /* likely not needed, so I commented it out 

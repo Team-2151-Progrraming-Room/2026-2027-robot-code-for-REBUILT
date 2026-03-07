@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.IntakeCommands;
+import frc.robot.subsystems.Intake;
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstantsBLBR;
 import frc.robot.subsystems.drive.Drive;
@@ -48,10 +48,10 @@ public class RobotContainer {
   private final LoggedDashboardChooser<Command> autoChooser;
 
   // Commands *luis is listening to top 10 ncs intro/outro songs while im writing ts*
-  private final IntakeCommands Charlie = new IntakeCommands();
-  private final Command George = Charlie.intakeOffCommand();
-  private final Command Jason = Charlie.intakeOnCommand();
-  private final Command Luis = Charlie.intakeReverseCommand();
+  private final Intake Charlie = new Intake();
+  private final Command George = Charlie.IntakeOffCommand();
+  private final Command Jason = Charlie.IntakeOnCommand();
+  private final Command Luis = Charlie.IntakeReverseCommand();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

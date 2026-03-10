@@ -6,6 +6,8 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
+
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
@@ -15,6 +17,11 @@ public class Intake extends SubsystemBase {
   private final TalonFXS m_IntakeMotor = new TalonFXS(IntakeConstants.kIntakeMotor);
   private final TalonFXSConfiguration configs = new TalonFXSConfiguration();
   private final CurrentLimitsConfigs IntakeLimitConfigs = new CurrentLimitsConfigs();
+  private boolean IntakeOn = false;
+  private boolean IntakeOff = false;
+  private boolean IntakeReverse = false;
+  Color IntakeStatus = new Color(255, 255, 255);
+
 
   public Intake() {
     m_IntakeMotor.stopMotor();
@@ -34,15 +41,28 @@ public class Intake extends SubsystemBase {
 
   // methods to turn motor on
   public void IntakeOn() {
-    m_IntakeMotor.set(-0.40);
+    m_IntakeMotor.set(-0.6);
+
+    IntakeOn = true;
+    IntakeOff = false;
+    IntakeReverse = false;
   }
 
   public void IntakeOff() {
     m_IntakeMotor.set(0);
+
+    IntakeOn = false;
+    IntakeOff = true;
+    IntakeReverse = false;
   }
 
   public void IntakeReverse() {
-    m_IntakeMotor.set(0.4);
+    m_IntakeMotor.set(0.6);
+
+    IntakeOn = false;
+    IntakeOff = false;
+    IntakeReverse = true;
+
   }
 
   // Commands

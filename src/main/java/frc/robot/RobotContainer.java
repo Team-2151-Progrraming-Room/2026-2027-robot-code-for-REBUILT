@@ -19,9 +19,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
-import frc.robot.subsystems.Intake;
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstantsBLBR;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -52,6 +52,10 @@ public class RobotContainer {
   private final Command George = Charlie.IntakeOffCommand();
   private final Command Jason = Charlie.IntakeOnCommand();
   private final Command Luis = Charlie.IntakeReverseCommand();
+
+  //Touchboared docoammadnds
+  //private final OneShotButton ShootingMode = new OneShotButton(ShootingMode, new *Command)
+  //private final OneShotButton PassingMode = new OneShotButton(PassingMode, new *Command)
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -171,7 +175,7 @@ public class RobotContainer {
 
     // Reset gyro to 0° when B button is pressed
     controller
-        .b()
+        .a()
         .onTrue(
             Commands.runOnce(
                     () ->

@@ -6,7 +6,7 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,8 +20,7 @@ public class Intake extends SubsystemBase {
   private boolean IntakeOn = false;
   private boolean IntakeOff = false;
   private boolean IntakeReverse = false;
-  Color IntakeStatus = new Color(255, 255, 255);
-
+  Color IntakeStatus = new Color(255, 0, 0);
 
   public Intake() {
     m_IntakeMotor.stopMotor();
@@ -41,6 +40,8 @@ public class Intake extends SubsystemBase {
 
   // methods to turn motor on
   public void IntakeOn() {
+    IntakeStatus = new Color(0, 255, 0);
+    SmartDashboard.putString("IntakeStatus", IntakeStatus.toHexString());
     m_IntakeMotor.set(-0.6);
 
     IntakeOn = true;
@@ -49,6 +50,8 @@ public class Intake extends SubsystemBase {
   }
 
   public void IntakeOff() {
+    IntakeStatus = new Color(255, 0, 0);
+    SmartDashboard.putString("IntakeStatus", IntakeStatus.toHexString());
     m_IntakeMotor.set(0);
 
     IntakeOn = false;
@@ -57,12 +60,13 @@ public class Intake extends SubsystemBase {
   }
 
   public void IntakeReverse() {
+    IntakeStatus = new Color(255, 255, 0);
+    SmartDashboard.putString("IntakeStatus", IntakeStatus.toHexString());
     m_IntakeMotor.set(0.6);
 
     IntakeOn = false;
     IntakeOff = false;
     IntakeReverse = true;
-
   }
 
   // Commands

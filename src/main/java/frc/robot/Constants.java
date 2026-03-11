@@ -25,30 +25,30 @@ import edu.wpi.first.wpilibj.RobotBase;
  */
 public final class Constants {
   public static class Vision {
-        public static final String FrontRightCamera = "FrontRightCamera";
-        public static final String FrontLeftCamera = "FrontLeftCamera";
-        public static final String BackRightCamera = "BackRightCamera";
-        public static final String BackLeftCamera = "BackLeftCamera";
+    public static final String FrontRightCamera = "FrontRightCamera";
+    public static final String FrontLeftCamera = "FrontLeftCamera";
+    public static final String BackRightCamera = "BackRightCamera";
+    public static final String BackLeftCamera = "BackLeftCamera";
 
-        // Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-        public static final Transform3d kRobotToFrontRightCamera =
-                new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
-        public static final Transform3d kRobotToFrontLeftCamera =
-                new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
-        public static final Transform3d kRobotToBackRightCamera =
-                new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
-        public static final Transform3d kRobotToBackLeftCamera =
-                new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
+    // Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+    public static final Transform3d kRobotToFrontRightCamera =
+        new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
+    public static final Transform3d kRobotToFrontLeftCamera =
+        new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
+    public static final Transform3d kRobotToBackRightCamera =
+        new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
+    public static final Transform3d kRobotToBackLeftCamera =
+        new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
 
-        // The layout of the AprilTags on the field
-        public static final AprilTagFieldLayout kTagLayout =
-                AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+    // The layout of the AprilTags on the field
+    public static final AprilTagFieldLayout kTagLayout =
+        AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
-        // The standard deviations of our vision estimated poses, which affect correction rate
-        // (Fake values. Experiment and determine estimation noise on an actual robot.)
-        public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
-        public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
-    }
+    // The standard deviations of our vision estimated poses, which affect correction rate
+    // (Fake values. Experiment and determine estimation noise on an actual robot.)
+    public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
+    public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+  }
 
   public static class IntakeConstants {
     public static final int kIntakeMotor = 35;
@@ -62,12 +62,15 @@ public final class Constants {
 
     public static final String canbusName = "rio";
 
-    public static final int kIntakeStatorCurrentLimit = 10;//10 Amps should be good for stator according to Mr. Zog. Regardless, might be temporary.
-    public static final int kIntakeSupplyCurrentLimit = 10;//Supply should at the very least the same value as stator, given that it determines
-                                                        //how much current can be drawn from the battery.
+    public static final int kIntakeStatorCurrentLimit =
+        10; // 10 Amps should be good for stator according to Mr. Zog. Regardless, might be
+    // temporary.
+    public static final int kIntakeSupplyCurrentLimit =
+        10; // Supply should at the very least the same value as stator, given that it determines
+    // how much current can be drawn from the battery.
   }
 
-  public static class CanbusName{
+  public static class CanbusName {
     public static final String rioCANBus = "rio";
   }
 

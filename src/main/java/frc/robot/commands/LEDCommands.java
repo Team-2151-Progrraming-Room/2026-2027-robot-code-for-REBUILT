@@ -2,9 +2,9 @@ package frc.robot.commands;
 
 // IMPORTS //
 
-import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LEDSubsystem;
+import java.util.function.BooleanSupplier;
 
 public class LEDCommands {
 

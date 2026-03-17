@@ -68,6 +68,7 @@ public class Shooter extends SubsystemBase {
     ShooterMotor2.stopMotor();
     ShooterMotor3.stopMotor();
     ShooterMotor4.stopMotor();
+    Indexer.stopMotor();
   }
 
   public void stopIntakeShooter() {
@@ -100,18 +101,16 @@ public class Shooter extends SubsystemBase {
           @Override
           public void run() {
             System.out.println("The task is executed after a 0.3 second delay!");
-            // Add your specific task logic here
+
             Indexer.set(0.4);
           }
         };
-    // Create a ScheduledExecutorService
+
     ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
     // Schedule the task to run once after a 300 millisecond delay
     executor.schedule(task, 300, TimeUnit.MILLISECONDS);
 
-    // Important: You should eventually shut down the executor service
-    // to allow the application to exit gracefully
     executor.shutdown();
   }
 
@@ -125,6 +124,22 @@ public class Shooter extends SubsystemBase {
       shootSpeed = 0.7;
     }
     ShooterMotor6.set(0.4);
+    Runnable task =
+        new Runnable() {
+          @Override
+          public void run() {
+            System.out.println("The task is executed after a 0.3 second delay!");
+
+            Indexer.set(0.4);
+          }
+        };
+
+    ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+
+    // Schedule the task to run once after a 300 millisecond delay
+    executor.schedule(task, 300, TimeUnit.MILLISECONDS);
+
+    executor.shutdown();
   }
 
   public Command shootModeCommand() {

@@ -4,22 +4,22 @@
 
 package frc.robot.subsystems.Touchboard;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleSubscriber;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
-import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.function.Supplier;
 
 public class AxisKnob extends SubsystemBase {
   /** Creates a new AxisKnob. */
   public double value = 0;
+
   double prev = 0;
   String topic;
-  
+
   DoubleSubscriber dataSubscriber;
   DoublePublisher dataPublisher;
 
@@ -31,7 +31,7 @@ public class AxisKnob extends SubsystemBase {
 
     dataPublisher = datatable.getDoubleTopic(topic).publish();
     dataSubscriber = datatable.getDoubleTopic(topic).subscribe(0);
-    
+
     this.topic = topic;
   }
 
@@ -50,7 +50,6 @@ public class AxisKnob extends SubsystemBase {
     if (value != prev) {
       prev = value;
       passedCommand.get().schedule();
-
     }
     // This method will be called once per scheduler run
   }

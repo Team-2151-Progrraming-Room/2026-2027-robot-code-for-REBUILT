@@ -15,40 +15,39 @@ public class DoubleActionButton extends SubsystemBase {
 
   final BooleanSubscriber dataSubscriber;
   final BooleanPublisher dataPublisher;
-  
+
   String buttonName;
   boolean prev = false;
 
   Command executed;
   Command Finished;
-  
+
   public DoubleActionButton(String buttonName, Command executed, Command Finished) {
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     NetworkTable datatable = inst.getTable("touchboard");
 
     dataPublisher = datatable.getBooleanTopic(buttonName).publish();
     dataSubscriber = datatable.getBooleanTopic(buttonName).subscribe(false);
-    
+
     this.Finished = Finished;
     this.executed = executed;
   }
 
   public boolean getValue() {
     return dataSubscriber.get();
-  } 
-
+  }
 
   public void periodic() {
     boolean value = dataSubscriber.get();
 
     if (value) {
       executed.schedule();
-      
-    }else{
+
+    } else {
       executed.cancel();
     }
 
-    if(!value && prev != value){
+    if (!value && prev != value) {
       Finished.schedule();
     }
     prev = value;

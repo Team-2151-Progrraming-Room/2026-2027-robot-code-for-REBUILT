@@ -4,15 +4,14 @@
 
 package frc.robot.subsystems.Touchboard;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.wpilibj2.command.Command;
-import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.function.Supplier;
 
 public class OptGroup extends SubsystemBase {
   public String value = "";
@@ -31,7 +30,7 @@ public class OptGroup extends SubsystemBase {
 
     dataPublisher = datatable.getStringTopic(topic).publish();
     dataSubscriber = datatable.getStringTopic(topic).subscribe("");
-    
+
     this.topic = topic;
   }
 

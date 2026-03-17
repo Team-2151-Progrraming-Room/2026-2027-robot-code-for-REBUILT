@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Jason"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Collect Depot"

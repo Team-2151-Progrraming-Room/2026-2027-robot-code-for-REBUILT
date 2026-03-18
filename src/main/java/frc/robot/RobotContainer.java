@@ -23,6 +23,7 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstantsBLBR;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -44,6 +45,9 @@ public class RobotContainer {
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
+  private final Shooter shooterCommands = new Shooter();
+  private final Command shootCommand = shooterCommands.shootModeCommand();
+  private final Command stopShooterCommand = shooterCommands.stopShooterCommand();
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -122,6 +126,9 @@ public class RobotContainer {
     }
 
     NamedCommands.registerCommand("IntakeOn", Jason);
+    NamedCommands.registerCommand("Shoot", shootCommand);
+
+    NamedCommands.registerCommand("ShootSTOPPLEASEIBEG", stopShooterCommand);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -175,6 +182,17 @@ public class RobotContainer {
     controller.y().onTrue((George));
     controller.x().onTrue((Jason));
     controller.b().onTrue((Luis));
+
+    controller.rightTrigger().whileTrue(shooterCommands.shootModeCommand());
+    controller.rightTrigger().whileFalse(shooterCommands.stopShooterCommand());
+    controller.rightBumper().whileTrue(shooterCommands.passModeCommand());
+    controller.leftBumper().whileTrue(shooterCommands.hoodUpCommand());
+    if (controller.leftTrigger().getAsBoolean() == false
+        && controller.leftBumper().getAsBoolean() == false) {
+      shooterCommands.hoodStopCommand();
+    }
+
+    controller.leftTrigger().whileTrue(shooterCommands.hoodDownCommand());
 
     // Reset gyro to 0° when B button is pressed
     controller

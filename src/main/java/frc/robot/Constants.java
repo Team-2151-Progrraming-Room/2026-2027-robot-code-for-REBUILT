@@ -65,6 +65,33 @@ public final class Constants {
     // how much current can be drawn from the battery.
   }
 
+  public static class ShooterConstants {
+
+    public static final int KshooterMotor = 27;
+    public static final int KshooterMotor2 = 29;
+    public static final int KshooterMotor3 = 20;
+    public static final int KshooterMotor4 = 21;
+    public static final int KshooterMotor5 = 18;
+    public static final int KshooterMotor6 = 35;
+    public static final int KindexerMotor = 24;
+
+    public static final int KshooterStatorCurrentLimit = 10;
+    public static final int kshooterSupplyCurrentLimit = 10;
+    public static final double KshooterSpeed1 = 0.5;
+    public static final double KshooterSpeed2 = 0.5;
+    public static final double KshooterSpeed3 = 0.5;
+    public static final double KshooterSpeed4 = 0.5;
+    public static final double KshooterSpeed5 = 0.5;
+    public static final double KshooterSpeed6 = 0.5;
+
+    public static final double KshooterSpeed1pass = 0.7;
+    public static final double KshooterSpeed2pass = 0.7;
+    public static final double KshooterSpeed3pass = 0.7;
+    public static final double KshooterSpeed4pass = 0.7;
+    public static final double KshooterSpeed5pass = 0.7;
+    public static final double KshooterSpeed6pass = 0.7;
+  }
+
   public static class CanbusName {
     public static final String rioCANBus = "rio";
   }

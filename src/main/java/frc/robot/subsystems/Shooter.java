@@ -37,7 +37,6 @@ public class Shooter extends SubsystemBase {
   private final TalonFXConfiguration hey = new TalonFXConfiguration();
   private final TalonFXSConfiguration hey2 = new TalonFXSConfiguration();
   public double shootSpeed = 0.5;
-  public int mode = 1;
 
   public Shooter() {
 
@@ -68,6 +67,7 @@ public class Shooter extends SubsystemBase {
     ShooterMotor2.stopMotor();
     ShooterMotor3.stopMotor();
     ShooterMotor4.stopMotor();
+    ShooterMotor6.stopMotor();
     Indexer.stopMotor();
   }
 
@@ -90,10 +90,10 @@ public class Shooter extends SubsystemBase {
 
   public void shootMode() {
     SmartDashboard.putString("Shooter Mode", "Shoot Mode");
-    ShooterMotor1.set(shootSpeed);
-    ShooterMotor2.set(shootSpeed);
-    ShooterMotor3.set(shootSpeed);
-    ShooterMotor4.set(shootSpeed);
+    ShooterMotor1.set(0.7);
+    ShooterMotor2.set(0.7);
+    ShooterMotor3.set(0.7);
+    ShooterMotor4.set(0.7);
 
     ShooterMotor6.set(0.4);
     Runnable task =
@@ -116,13 +116,11 @@ public class Shooter extends SubsystemBase {
 
   public void passMode() {
     SmartDashboard.putString("Shooter Mode", "Pass Mode");
-    mode = mode * -1;
-    if (mode == 1) {
-      shootSpeed = 0.5;
+    ShooterMotor1.set(shootSpeed);
+    ShooterMotor2.set(shootSpeed);
+    ShooterMotor3.set(shootSpeed);
+    ShooterMotor4.set(shootSpeed);
 
-    } else if (mode == -1) {
-      shootSpeed = 0.7;
-    }
     ShooterMotor6.set(0.4);
     Runnable task =
         new Runnable() {

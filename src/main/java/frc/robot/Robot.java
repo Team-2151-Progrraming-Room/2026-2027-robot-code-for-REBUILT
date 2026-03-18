@@ -7,10 +7,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.drive.Drive;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -18,7 +17,6 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import org.photonvision.PhotonCamera;
-import frc.robot.subsystems.drive.Drive;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -80,7 +78,7 @@ public class Robot extends LoggedRobot {
     // and put our autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
 
-    //vision to drivetrain code
+    // vision to drivetrain code
     drivetrain = new Drive(null, null, null, null, null);
     vision = new Vision(drivetrain::addVisionMeasurement);
   }
@@ -88,7 +86,7 @@ public class Robot extends LoggedRobot {
   /** This function is called periodically during all modes. */
   @Override
   public void robotPeriodic() {
-    //lowkirkuenly updates ts pretty often
+    // lowkirkuenly updates ts pretty often
     drivetrain.periodic();
     vision.periodic();
     // Optionally switch the thread to high priority to improve loop
@@ -165,5 +163,4 @@ public class Robot extends LoggedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
-
 }

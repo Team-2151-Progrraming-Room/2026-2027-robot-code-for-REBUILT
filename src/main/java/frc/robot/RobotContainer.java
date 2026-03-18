@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.ShooterCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstantsBLBR;
 import frc.robot.subsystems.drive.Drive;
@@ -39,6 +40,9 @@ public class RobotContainer {
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
+  private final ShooterCommands shooterCommands = new ShooterCommands();
+  private final Command shootCommand = shooterCommands.shootCommand();
+  private final Command stopShooterCommand = shooterCommands.stopShooterCommand();
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -161,6 +165,17 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+    controller.rightTrigger().whileTrue(shooterCommands.shootCommand());
+    controller.rightTrigger().whileFalse(shooterCommands.stopShooterCommand());
+    controller.rightBumper().whileTrue(shooterCommands.passModeCommand());
+    controller.leftBumper().whileTrue(shooterCommands.hoodupCommand());
+    if (controller.leftTrigger().getAsBoolean() == false
+        && controller.leftBumper().getAsBoolean() == false) {
+      shooterCommands.hoodStopCommand();
+    }
+
+    controller.leftTrigger().whileTrue(shooterCommands.hooddownCommand());
   }
 
   /**

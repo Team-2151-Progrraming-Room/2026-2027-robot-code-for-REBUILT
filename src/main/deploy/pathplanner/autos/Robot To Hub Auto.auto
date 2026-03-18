@@ -9,6 +9,12 @@
           "data": {
             "pathName": "Robot To Hub"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
         }
       ]
     }

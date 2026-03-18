@@ -5,15 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Jason"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Collect Depot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeOn"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Collect Depot"
+                }
+              }
+            ]
           }
         }
       ]

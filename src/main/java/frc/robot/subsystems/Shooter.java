@@ -17,19 +17,19 @@ import java.util.concurrent.TimeUnit;
 
 public class Shooter extends SubsystemBase {
   // all the krakens and minion we will be using
-  private final TalonFX ShooterMotor1 = new TalonFX(ShooterConstants.KshooterMotor);
-  private final TalonFX ShooterMotor2 = new TalonFX(ShooterConstants.KshooterMotor2);
-  private final TalonFX ShooterMotor3 = new TalonFX(ShooterConstants.KshooterMotor3);
-  private final TalonFX ShooterMotor4 = new TalonFX(ShooterConstants.KshooterMotor4);
+  private final TalonFX kShooterTopFront = new TalonFX(ShooterConstants.kShooterTopFront);
+  private final TalonFX kShooterTopRear = new TalonFX(ShooterConstants.kShooterTopRear);
+  private final TalonFX kShooterBottomFront = new TalonFX(ShooterConstants.kShooterBottomFront);
+  private final TalonFX kShooterBottomRear = new TalonFX(ShooterConstants.kShooterBottomRear);
   // motor that moves the hood up and down
   XboxController controller = new XboxController(0);
 
   public double Hoodposition = 0.0;
 
-  private final TalonFX ShooterMotor5 = new TalonFX(ShooterConstants.KshooterMotor5);
+  private final TalonFX kHood = new TalonFX(ShooterConstants.kHood);
 
   // minion motor/intake motor
-  private final TalonFXS ShooterMotor6 = new TalonFXS(ShooterConstants.KshooterMotor6);
+  private final TalonFXS kFeeder = new TalonFXS(ShooterConstants.kFeeder);
   private final TalonFXS Indexer = new TalonFXS(ShooterConstants.KindexerMotor);
   private final CurrentLimitsConfigs configs = new CurrentLimitsConfigs();
 
@@ -40,62 +40,62 @@ public class Shooter extends SubsystemBase {
 
   public Shooter() {
 
-    ShooterMotor1.stopMotor();
-    ShooterMotor2.stopMotor();
-    ShooterMotor3.stopMotor();
-    ShooterMotor4.stopMotor();
-    ShooterMotor5.stopMotor();
-    ShooterMotor6.stopMotor();
+    kShooterTopFront.stopMotor();
+    kShooterTopRear.stopMotor();
+    kShooterBottomFront.stopMotor();
+    kShooterBottomRear.stopMotor();
+    kHood.stopMotor();
+    kFeeder.stopMotor();
     configs.withSupplyCurrentLimit(10);
     configs.withStatorCurrentLimit(10);
     hey2.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
     hey.withCurrentLimits(configs);
     hey2.withCurrentLimits(configs);
-    ShooterMotor1.getConfigurator().apply(hey);
-    ShooterMotor2.getConfigurator().apply(hey);
-    ShooterMotor3.getConfigurator().apply(hey);
-    ShooterMotor4.getConfigurator().apply(hey);
-    ShooterMotor5.getConfigurator().apply(hey);
-    ShooterMotor6.getConfigurator().apply(hey2);
+    kShooterTopFront.getConfigurator().apply(hey);
+    kShooterTopRear.getConfigurator().apply(hey);
+    kShooterBottomFront.getConfigurator().apply(hey);
+    kShooterBottomRear.getConfigurator().apply(hey);
+    kHood.getConfigurator().apply(hey);
+    kFeeder.getConfigurator().apply(hey2);
     Indexer.getConfigurator().apply(hey2);
   }
 
   public void ZeroHood() {}
 
   public void stopShooter() {
-    ShooterMotor1.stopMotor();
-    ShooterMotor2.stopMotor();
-    ShooterMotor3.stopMotor();
-    ShooterMotor4.stopMotor();
-    ShooterMotor6.stopMotor();
+    kShooterTopFront.stopMotor();
+    kShooterTopRear.stopMotor();
+    kShooterBottomFront.stopMotor();
+    kShooterBottomRear.stopMotor();
+    kFeeder.stopMotor();
     Indexer.stopMotor();
   }
 
   public void stopIntakeShooter() {
-    ShooterMotor6.stopMotor();
+    kFeeder.stopMotor();
   }
 
   public void hoodUp() {
 
-    ShooterMotor5.set(0.2);
+    kHood.set(0.2);
   }
 
   public void hoodStop() {
-    ShooterMotor5.stopMotor();
+    kHood.stopMotor();
   }
 
   public void hoodDown() {
-    ShooterMotor5.set(-0.2);
+    kHood.set(-0.2);
   }
 
   public void shootMode() {
     SmartDashboard.putString("Shooter Mode", "Shoot Mode");
-    ShooterMotor1.set(0.7);
-    ShooterMotor2.set(0.7);
-    ShooterMotor3.set(0.7);
-    ShooterMotor4.set(0.7);
+    kShooterTopFront.set(0.7);
+    kShooterTopRear.set(-0.7);
+    kShooterBottomFront.set(0.7);
+    kShooterBottomRear.set(-0.7);
 
-    ShooterMotor6.set(0.4);
+    kFeeder.set(0.4);
     Runnable task =
         new Runnable() {
           @Override
@@ -116,12 +116,12 @@ public class Shooter extends SubsystemBase {
 
   public void passMode() {
     SmartDashboard.putString("Shooter Mode", "Pass Mode");
-    ShooterMotor1.set(shootSpeed);
-    ShooterMotor2.set(shootSpeed);
-    ShooterMotor3.set(shootSpeed);
-    ShooterMotor4.set(shootSpeed);
+    kShooterTopFront.set(shootSpeed);
+    kShooterTopRear.set(-shootSpeed);
+    kShooterBottomFront.set(shootSpeed);
+    kShooterBottomRear.set(-shootSpeed);
 
-    ShooterMotor6.set(0.4);
+    kFeeder.set(0.4);
     Runnable task =
         new Runnable() {
           @Override

@@ -24,6 +24,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstantsBLBR;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Touchboard.ActionButton;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -48,6 +49,12 @@ public class RobotContainer {
   private final Shooter shooterCommands = new Shooter();
   private final Command shootCommand = shooterCommands.shootModeCommand();
   private final Command stopShooterCommand = shooterCommands.stopShooterCommand();
+  private final ActionButton ShootingMode =
+      new ActionButton("ShootingMode", shooterCommands.shootModeCommand());
+  private final ActionButton PassingMode =
+      new ActionButton("PassingMode", shooterCommands.passModeCommand());
+  private final ActionButton StopShooting =
+      new ActionButton("StopShooting", shooterCommands.stopShooterCommand());
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;

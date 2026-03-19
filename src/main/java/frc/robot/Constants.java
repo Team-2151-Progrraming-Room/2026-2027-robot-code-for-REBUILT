@@ -67,12 +67,12 @@ public final class Constants {
 
   public static class ShooterConstants {
 
-    public static final int KshooterMotor = 27;
-    public static final int KshooterMotor2 = 29;
-    public static final int KshooterMotor3 = 20;
-    public static final int KshooterMotor4 = 21;
-    public static final int KshooterMotor5 = 18;
-    public static final int KshooterMotor6 = 35;
+    public static final int kShooterTopFront = 27;
+    public static final int kShooterTopRear = 29;
+    public static final int kShooterBottomFront = 20;
+    public static final int kShooterBottomRear = 21;
+    public static final int kHood = 18;
+    public static final int kFeeder = 35;
     public static final int KindexerMotor = 24;
 
     public static final int KshooterStatorCurrentLimit = 10;

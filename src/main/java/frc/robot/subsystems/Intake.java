@@ -23,6 +23,8 @@ public class Intake extends SubsystemBase {
   Color IntakeStatus = new Color(255, 0, 0);
 
   public Intake() {
+    Color IntakeStatus = new Color(255, 0, 0);
+    SmartDashboard.putString("IntakeStatus", IntakeStatus.toHexString());
     m_IntakeMotor.stopMotor();
 
     // Current Limit Configs

@@ -55,6 +55,12 @@ public class RobotContainer {
       new ActionButton("PassingMode", shooterCommands.passModeCommand());
   private final ActionButton StopShooting =
       new ActionButton("StopShooting", shooterCommands.stopShooterCommand());
+  private final ActionButton HoodUp =
+      new ActionButton("HoodUp", shooterCommands.hoodUpCommand());
+  private final ActionButton HoodDown =
+      new ActionButton("HoodDown", shooterCommands.hoodDownCommand());
+  private final ActionButton HoodStop =
+      new ActionButton("HoodStop", shooterCommands.hoodStopCommand());
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;

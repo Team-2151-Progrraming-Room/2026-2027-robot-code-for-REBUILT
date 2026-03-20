@@ -6,6 +6,8 @@ import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,7 +38,7 @@ public class Shooter extends SubsystemBase {
   // configurations
   private final TalonFXConfiguration hey = new TalonFXConfiguration();
   private final TalonFXSConfiguration hey2 = new TalonFXSConfiguration();
-  public double shootSpeed = 0.5;
+  public double shootSpeed = 0.7;
 
   public Shooter() {
 
@@ -90,55 +92,77 @@ public class Shooter extends SubsystemBase {
 
   public void shootMode() {
     SmartDashboard.putString("Shooter Mode", "Shoot Mode");
-    kShooterTopFront.set(0.7);
-    kShooterTopRear.set(-0.7);
-    kShooterBottomFront.set(0.7);
-    kShooterBottomRear.set(-0.7);
+    kShooterTopFront.set(-0.5);
+    kShooterTopRear.set(0.5);
+    kShooterBottomFront.set(-0.5);
+    kShooterBottomRear.set(0.5);
 
-    kFeeder.set(0.4);
-    Runnable task =
-        new Runnable() {
-          @Override
-          public void run() {
-            System.out.println("The task is executed after a 0.3 second delay!");
-
-            Indexer.set(0.4);
-          }
-        };
-
-    ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-
-    // Schedule the task to run once after a 300 millisecond delay
-    executor.schedule(task, 300, TimeUnit.MILLISECONDS);
-
-    executor.shutdown();
+    kFeeder.set(-0.4);
   }
 
   public void passMode() {
     SmartDashboard.putString("Shooter Mode", "Pass Mode");
-    kShooterTopFront.set(shootSpeed);
-    kShooterTopRear.set(-shootSpeed);
-    kShooterBottomFront.set(shootSpeed);
-    kShooterBottomRear.set(-shootSpeed);
+    kShooterTopFront.set(-shootSpeed);
+    kShooterTopRear.set(shootSpeed);
+    kShooterBottomFront.set(-shootSpeed);
+    kShooterBottomRear.set(shootSpeed);
 
-    kFeeder.set(0.4);
-    Runnable task =
-        new Runnable() {
-          @Override
-          public void run() {
-            System.out.println("The task is executed after a 0.3 second delay!");
-
-            Indexer.set(0.4);
-          }
-        };
-
-    ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-
-    // Schedule the task to run once after a 300 millisecond delay
-    executor.schedule(task, 300, TimeUnit.MILLISECONDS);
-
-    executor.shutdown();
+    kFeeder.set(-0.4);
   }
+
+  public void indexerOn() {
+   Indexer.set(0.3);
+  }
+
+  public void indexerOff() {
+   Indexer.set(0.3);
+  }
+
+  public double getkShooterTopFrontVelocity() {
+    double velocity = kShooterTopFront.getVelocity().getValueAsDouble();
+    return velocity;
+  }
+
+  public double getkShooterTopRearVelocity() {
+    double velocity = kShooterTopRear.getVelocity().getValueAsDouble();
+    return velocity;
+  }
+
+  public double getkShooterBottomFrontVelocity() {
+    double velocity = kShooterBottomFront.getVelocity().getValueAsDouble();
+    return velocity;
+  }
+
+  public double getkShooterBottomRearVelocity() {
+    double velocity = kShooterBottomRear.getVelocity().getValueAsDouble();
+    return velocity;
+  }
+
+  public double getkFeederVelocity() {
+    double velocity = kFeeder.getVelocity().getValueAsDouble();
+    return velocity;
+  }
+
+  public boolean atShooterSpeed() {
+    if (MathUtil.isNear(-0.5, getkShooterTopFrontVelocity(), 0.1) && MathUtil.isNear(0.5, getkShooterTopRearVelocity(), 0.1) && MathUtil.isNear(-0.5, getkShooterBottomFrontVelocity(), 0.1) && MathUtil.isNear(0.5, getkShooterBottomRearVelocity(), 0.1) && MathUtil.isNear(-0.4, getkFeederVelocity(), 0.1)) {
+      return true;
+    }
+    return false;
+  }
+
+  public boolean atPassingSpeed() {
+    if (MathUtil.isNear(-0.7, getkShooterTopFrontVelocity(), 0.1) && MathUtil.isNear(0.7, getkShooterTopRearVelocity(), 0.1) && MathUtil.isNear(-0.7, getkShooterBottomFrontVelocity(), 0.1) && MathUtil.isNear(0.7, getkShooterBottomRearVelocity(), 0.1) && MathUtil.isNear(-0.4, getkFeederVelocity(), 0.1)) {
+      return true;
+    }
+    return false;
+  }
+
+  public Command IndexerOn() {
+    return runOnce(
+        () -> {
+          indexerOn();
+        });
+  } 
 
   public Command shootModeCommand() {
 

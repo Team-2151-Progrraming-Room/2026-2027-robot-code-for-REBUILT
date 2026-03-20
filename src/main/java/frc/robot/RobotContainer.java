@@ -46,17 +46,20 @@ public class RobotContainer {
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
+
+  // Shooter Commands
   private final Shooter shooterCommands = new Shooter();
   private final Command shootCommand = shooterCommands.shootModeCommand();
   private final Command stopShooterCommand = shooterCommands.stopShooterCommand();
+
+  // Touchboard Buttons/Commands
   private final ActionButton ShootingMode =
       new ActionButton("ShootingMode", shooterCommands.shootModeCommand());
   private final ActionButton PassingMode =
       new ActionButton("PassingMode", shooterCommands.passModeCommand());
   private final ActionButton StopShooting =
       new ActionButton("StopShooting", shooterCommands.stopShooterCommand());
-  private final ActionButton HoodUp =
-      new ActionButton("HoodUp", shooterCommands.hoodUpCommand());
+  private final ActionButton HoodUp = new ActionButton("HoodUp", shooterCommands.hoodUpCommand());
   private final ActionButton HoodDown =
       new ActionButton("HoodDown", shooterCommands.hoodDownCommand());
   private final ActionButton HoodStop =
@@ -65,7 +68,22 @@ public class RobotContainer {
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
-  // Commands *luis is listening to top 10 ncs intro/outro songs while im writing ts*
+  // Since we are using a holonomic drivetrain, the rotation component of this pose
+  // represents the goal holonomic rotation
+  /*
+  Pose2d targetPoseToHub = new Pose2d(2.68, 3.666, Rotation2d.fromDegrees(-60));
+
+  // Create the constraints to use while pathfinding
+  PathConstraints constraints =
+      new PathConstraints(3.0, 4.0, Units.degreesToRadians(540), Units.degreesToRadians(720));
+
+  // Since AutoBuilder is configured, we can use it to build pathfinding commands
+  Command GoToHub =
+      AutoBuilder.pathfindToPose(
+          targetPoseToHub, constraints, 0.0 // Goal end velocity in meters/sec
+          );
+  */
+  // Intake Commands *luis is listening to top 10 ncs intro/outro songs while im writing ts*
   private final Intake Charlie = new Intake();
   private final Command George = Charlie.IntakeOffCommand();
   private final Command Jason = Charlie.IntakeOnCommand();
@@ -139,6 +157,7 @@ public class RobotContainer {
     }
 
     NamedCommands.registerCommand("IntakeOn", Jason);
+    NamedCommands.registerCommand("IntakeOff", George);
     NamedCommands.registerCommand("Shoot", shootCommand);
 
     NamedCommands.registerCommand("ShootSTOPPLEASEIBEG", stopShooterCommand);

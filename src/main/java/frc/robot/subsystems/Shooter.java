@@ -3,19 +3,16 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class Shooter extends SubsystemBase {
   // all the krakens and minion we will be using
@@ -26,11 +23,9 @@ public class Shooter extends SubsystemBase {
   // motor that moves the hood up and down
   XboxController controller = new XboxController(0);
 
-  public double Hoodposition = 0.0;
-
   private final TalonFX kHood = new TalonFX(ShooterConstants.kHood);
 
-  // minion motor/intake motor
+  // minion motor for feeder and indexer
   private final TalonFXS kFeeder = new TalonFXS(ShooterConstants.kFeeder);
   private final TalonFXS Indexer = new TalonFXS(ShooterConstants.KindexerMotor);
   private final CurrentLimitsConfigs configs = new CurrentLimitsConfigs();
@@ -38,28 +33,44 @@ public class Shooter extends SubsystemBase {
   // configurations
   private final TalonFXConfiguration hey = new TalonFXConfiguration();
   private final TalonFXSConfiguration hey2 = new TalonFXSConfiguration();
+  private final TalonFXConfiguration hoodConfig = new TalonFXConfiguration();
   public double shootSpeed = 0.7;
 
   public Shooter() {
-
+    // Stop motors
     kShooterTopFront.stopMotor();
     kShooterTopRear.stopMotor();
     kShooterBottomFront.stopMotor();
     kShooterBottomRear.stopMotor();
     kHood.stopMotor();
     kFeeder.stopMotor();
+
+    // Config Current limit
     configs.withSupplyCurrentLimit(10);
     configs.withStatorCurrentLimit(10);
+
+    // Minion configs with current limits
     hey2.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
     hey.withCurrentLimits(configs);
     hey2.withCurrentLimits(configs);
+
+    // Apply TalonFX Configuration
     kShooterTopFront.getConfigurator().apply(hey);
     kShooterTopRear.getConfigurator().apply(hey);
     kShooterBottomFront.getConfigurator().apply(hey);
     kShooterBottomRear.getConfigurator().apply(hey);
-    kHood.getConfigurator().apply(hey);
+
+    // Apply TalonFXS Configuration
     kFeeder.getConfigurator().apply(hey2);
     Indexer.getConfigurator().apply(hey2);
+
+    // PID Configs
+    hoodConfig.Slot0.kP = 0;
+    hoodConfig.Slot0.kI = 0;
+    hoodConfig.Slot0.kD = 0;
+
+    // Apply PID Configs
+    kHood.getConfigurator().apply(hoodConfig);
   }
 
   public void ZeroHood() {}
@@ -77,17 +88,18 @@ public class Shooter extends SubsystemBase {
     kFeeder.stopMotor();
   }
 
-  public void hoodUp() {
+  public void hoodShootingPosition() {
+    final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
+    kFeeder.setControl(m_request.withPosition(0.1));
+  }
 
-    kHood.set(0.2);
+  public void hoodPassingPosition() {
+    final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
+    kFeeder.setControl(m_request.withPosition(0.1));
   }
 
   public void hoodStop() {
     kHood.stopMotor();
-  }
-
-  public void hoodDown() {
-    kHood.set(-0.2);
   }
 
   public void shootMode() {
@@ -111,11 +123,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public void indexerOn() {
-   Indexer.set(0.3);
+    Indexer.set(0.3);
   }
 
   public void indexerOff() {
-   Indexer.set(0.3);
+    Indexer.set(0.3);
   }
 
   public double getkShooterTopFrontVelocity() {
@@ -144,14 +156,22 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean atShooterSpeed() {
-    if (MathUtil.isNear(-0.5, getkShooterTopFrontVelocity(), 0.1) && MathUtil.isNear(0.5, getkShooterTopRearVelocity(), 0.1) && MathUtil.isNear(-0.5, getkShooterBottomFrontVelocity(), 0.1) && MathUtil.isNear(0.5, getkShooterBottomRearVelocity(), 0.1) && MathUtil.isNear(-0.4, getkFeederVelocity(), 0.1)) {
+    if (MathUtil.isNear(-0.5, getkShooterTopFrontVelocity(), 0.1)
+        && MathUtil.isNear(0.5, getkShooterTopRearVelocity(), 0.1)
+        && MathUtil.isNear(-0.5, getkShooterBottomFrontVelocity(), 0.1)
+        && MathUtil.isNear(0.5, getkShooterBottomRearVelocity(), 0.1)
+        && MathUtil.isNear(-0.4, getkFeederVelocity(), 0.1)) {
       return true;
     }
     return false;
   }
 
   public boolean atPassingSpeed() {
-    if (MathUtil.isNear(-0.7, getkShooterTopFrontVelocity(), 0.1) && MathUtil.isNear(0.7, getkShooterTopRearVelocity(), 0.1) && MathUtil.isNear(-0.7, getkShooterBottomFrontVelocity(), 0.1) && MathUtil.isNear(0.7, getkShooterBottomRearVelocity(), 0.1) && MathUtil.isNear(-0.4, getkFeederVelocity(), 0.1)) {
+    if (MathUtil.isNear(-0.7, getkShooterTopFrontVelocity(), 0.1)
+        && MathUtil.isNear(0.7, getkShooterTopRearVelocity(), 0.1)
+        && MathUtil.isNear(-0.7, getkShooterBottomFrontVelocity(), 0.1)
+        && MathUtil.isNear(0.7, getkShooterBottomRearVelocity(), 0.1)
+        && MathUtil.isNear(-0.4, getkFeederVelocity(), 0.1)) {
       return true;
     }
     return false;
@@ -162,7 +182,7 @@ public class Shooter extends SubsystemBase {
         () -> {
           indexerOn();
         });
-  } 
+  }
 
   public Command shootModeCommand() {
 
@@ -177,22 +197,6 @@ public class Shooter extends SubsystemBase {
     return runOnce(
         () -> {
           passMode();
-        });
-  }
-
-  public Command hoodUpCommand() {
-
-    return runOnce(
-        () -> {
-          hoodUp();
-        });
-  }
-
-  public Command hoodDownCommand() {
-
-    return runOnce(
-        () -> {
-          hoodDown();
         });
   }
 

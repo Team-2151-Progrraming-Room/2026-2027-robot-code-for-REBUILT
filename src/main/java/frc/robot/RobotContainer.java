@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.ShooterCommands;
+import frc.robot.subsystems.GoToHub;
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstantsBLBR;
 import frc.robot.subsystems.Intake;
@@ -31,6 +33,7 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import java.util.function.BooleanSupplier;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -43,46 +46,40 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Vision vision;
+  private final Shooter shooterCommands = new Shooter();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
 
+  // Boolean Supplier
+  BooleanSupplier m_atShooterSpeed = () -> shooterCommands.atShooterSpeed();
+  BooleanSupplier m_atPassingSpeed = () -> shooterCommands.atPassingSpeed();
+
+  //PathPlanner Commands
+  private final GoToHub gotohub = new GoToHub();
+  private final Command goToHubCommand = gotohub.GoToHubCommand();
   // Shooter Commands
-  private final Shooter shooterCommands = new Shooter();
-  private final Command shootCommand = shooterCommands.shootModeCommand();
+  private final ShooterCommands shooterCommandsFile =
+      new ShooterCommands(shooterCommands, m_atShooterSpeed, m_atPassingSpeed);
+  private final Command shootCommand = shooterCommandsFile.ShootingMode();
+  private final Command passingCommand = shooterCommandsFile.PassingMode();
   private final Command stopShooterCommand = shooterCommands.stopShooterCommand();
 
   // Touchboard Buttons/Commands
-  private final ActionButton ShootingMode =
-      new ActionButton("ShootingMode", shooterCommands.shootModeCommand());
-  private final ActionButton PassingMode =
-      new ActionButton("PassingMode", shooterCommands.passModeCommand());
+  private final ActionButton ShootingMode = new ActionButton("ShootingMode", shootCommand);
+  private final ActionButton PassingMode = new ActionButton("PassingMode", passingCommand);
   private final ActionButton StopShooting =
       new ActionButton("StopShooting", shooterCommands.stopShooterCommand());
-  private final ActionButton HoodUp = new ActionButton("HoodUp", shooterCommands.hoodUpCommand());
-  private final ActionButton HoodDown =
-      new ActionButton("HoodDown", shooterCommands.hoodDownCommand());
   private final ActionButton HoodStop =
       new ActionButton("HoodStop", shooterCommands.hoodStopCommand());
+  private final ActionButton GoToHub = new ActionButton("GoToHub", goToHubCommand);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
   // Since we are using a holonomic drivetrain, the rotation component of this pose
   // represents the goal holonomic rotation
-  /*
-  Pose2d targetPoseToHub = new Pose2d(2.68, 3.666, Rotation2d.fromDegrees(-60));
 
-  // Create the constraints to use while pathfinding
-  PathConstraints constraints =
-      new PathConstraints(3.0, 4.0, Units.degreesToRadians(540), Units.degreesToRadians(720));
-
-  // Since AutoBuilder is configured, we can use it to build pathfinding commands
-  Command GoToHub =
-      AutoBuilder.pathfindToPose(
-          targetPoseToHub, constraints, 0.0 // Goal end velocity in meters/sec
-          );
-  */
   // Intake Commands *luis is listening to top 10 ncs intro/outro songs while im writing ts*
   private final Intake Charlie = new Intake();
   private final Command George = Charlie.IntakeOffCommand();
@@ -218,13 +215,10 @@ public class RobotContainer {
     controller.rightTrigger().whileTrue(shooterCommands.shootModeCommand());
     controller.rightTrigger().whileFalse(shooterCommands.stopShooterCommand());
     controller.rightBumper().whileTrue(shooterCommands.passModeCommand());
-    controller.leftBumper().whileTrue(shooterCommands.hoodUpCommand());
     if (controller.leftTrigger().getAsBoolean() == false
         && controller.leftBumper().getAsBoolean() == false) {
       shooterCommands.hoodStopCommand();
     }
-
-    controller.leftTrigger().whileTrue(shooterCommands.hoodDownCommand());
 
     // Reset gyro to 0° when B button is pressed
     controller

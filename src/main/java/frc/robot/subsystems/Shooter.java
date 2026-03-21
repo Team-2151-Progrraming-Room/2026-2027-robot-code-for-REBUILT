@@ -205,15 +205,14 @@ public class Shooter extends SubsystemBase {
   public Command HoodShootingCommand() {
     return runOnce(
         () -> {
-          HoodShootingCommand();
+          hoodShootingPosition();
         });
   }
 
   public Command HoodPassingCommand() {
-
     return runOnce(
         () -> {
-          HoodPassingCommand();
+          hoodPassingPosition();
         });
   }
 

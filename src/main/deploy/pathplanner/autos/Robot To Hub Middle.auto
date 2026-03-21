@@ -48,15 +48,27 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Pass"
+          }
+        },
+        {
           "type": "wait",
           "data": {
-            "waitTime": 0.0
+            "waitTime": 3.0
           }
         },
         {
           "type": "named",
           "data": {
             "name": "IntakeOff"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSTOPPLEASEIBEG"
           }
         }
       ]

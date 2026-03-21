@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
@@ -8,6 +10,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.net.WPINetJNI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,6 +39,9 @@ public class Shooter extends SubsystemBase {
   private final TalonFXConfiguration hoodConfig = new TalonFXConfiguration();
   public double shootSpeed = 0.7;
 
+  //Boolean for Passing and Shooting Mode
+  public boolean shootingOrPassing = true;
+  
   public Shooter() {
     // Stop motors
     kShooterTopFront.stopMotor();
@@ -73,8 +79,6 @@ public class Shooter extends SubsystemBase {
     kHood.getConfigurator().apply(hoodConfig);
   }
 
-  public void ZeroHood() {}
-
   public void stopShooter() {
     kShooterTopFront.stopMotor();
     kShooterTopRear.stopMotor();
@@ -90,12 +94,18 @@ public class Shooter extends SubsystemBase {
 
   public void hoodShootingPosition() {
     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
-    kFeeder.setControl(m_request.withPosition(0.1));
+    if (shootingOrPassing == false) {
+      kFeeder.setControl(m_request.withPosition(0.1));
+      shootingOrPassing = true;
+    }
   }
 
   public void hoodPassingPosition() {
     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
-    kFeeder.setControl(m_request.withPosition(0.1));
+    if (shootingOrPassing == true) {
+      kFeeder.setControl(m_request.withPosition(0.1));
+      shootingOrPassing = false;
+    }
   }
 
   public void hoodStop() {
@@ -155,7 +165,7 @@ public class Shooter extends SubsystemBase {
     return velocity;
   }
 
-  public boolean atShooterSpeed() {
+  public Boolean atShooterSpeed() {
     if (MathUtil.isNear(-0.5, getkShooterTopFrontVelocity(), 0.1)
         && MathUtil.isNear(0.5, getkShooterTopRearVelocity(), 0.1)
         && MathUtil.isNear(-0.5, getkShooterBottomFrontVelocity(), 0.1)
@@ -189,6 +199,21 @@ public class Shooter extends SubsystemBase {
     return runOnce(
         () -> {
           shootMode();
+        });
+  }
+
+  public Command HoodShootingCommand() {
+    return runOnce(
+        () -> {
+          HoodShootingCommand();
+        });
+  }
+
+  public Command HoodPassingCommand() {
+
+    return runOnce(
+        () -> {
+          HoodPassingCommand();
         });
   }
 

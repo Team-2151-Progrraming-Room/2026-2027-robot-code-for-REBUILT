@@ -9,6 +9,8 @@ package frc.robot;
 
 import static frc.robot.Constants.Vision.*;
 
+import java.util.function.BooleanSupplier;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,12 +22,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.ShooterCommands;
-import frc.robot.subsystems.GoToHub;
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstantsBLBR;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.GoToHub;
+import frc.robot.commands.ShooterCommands;
 import frc.robot.subsystems.Touchboard.ActionButton;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -33,7 +35,6 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import java.util.function.BooleanSupplier;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -47,38 +48,42 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Shooter shooterCommands = new Shooter();
+  private final GoToHub goToHub = new GoToHub();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
 
-  // Boolean Supplier
-  BooleanSupplier m_atShooterSpeed = () -> shooterCommands.atShooterSpeed();
-  BooleanSupplier m_atPassingSpeed = () -> shooterCommands.atPassingSpeed();
+  //Booleans Supplier
+  private final BooleanSupplier m_atShooterSpeed = () -> shooterCommands.atShooterSpeed();
+  private final BooleanSupplier m_atPassingSpeed = () -> shooterCommands.atPassingSpeed();
 
-  //PathPlanner Commands
-  private final GoToHub gotohub = new GoToHub();
-  private final Command goToHubCommand = gotohub.GoToHubCommand();
   // Shooter Commands
-  private final ShooterCommands shooterCommandsFile =
-      new ShooterCommands(shooterCommands, m_atShooterSpeed, m_atPassingSpeed);
-  private final Command shootCommand = shooterCommandsFile.ShootingMode();
-  private final Command passingCommand = shooterCommandsFile.PassingMode();
+  private final ShooterCommands shooterCommandsFiled = new ShooterCommands(shooterCommands, m_atShooterSpeed, m_atPassingSpeed);
+  private final Command shootCommand = shooterCommandsFiled.ShootingMode();
+  private final Command passCommand = shooterCommandsFiled.PassingMode();
   private final Command stopShooterCommand = shooterCommands.stopShooterCommand();
 
+  //Go To Hub Command
+  private final Command goToHubCommand = goToHub.GoToHubCommand();
+
   // Touchboard Buttons/Commands
-  private final ActionButton ShootingMode = new ActionButton("ShootingMode", shootCommand);
-  private final ActionButton PassingMode = new ActionButton("PassingMode", passingCommand);
+  private final ActionButton ShootingMode =
+       new ActionButton("ShootingMode", shootCommand);
+  private final ActionButton PassingMode =
+      new ActionButton("PassingMode", passCommand);
   private final ActionButton StopShooting =
       new ActionButton("StopShooting", shooterCommands.stopShooterCommand());
+  private final ActionButton GoToHub =
+      new ActionButton("GoToHub", goToHubCommand);
+  private final ActionButton HoodShooting = 
+      new ActionButton("HoodShooting", shooterCommands.HoodShootingCommand());
+  private final ActionButton HoodPassing = 
+      new ActionButton("HoodPassing", shooterCommands.HoodPassingCommand());
   private final ActionButton HoodStop =
       new ActionButton("HoodStop", shooterCommands.hoodStopCommand());
-  private final ActionButton GoToHub = new ActionButton("GoToHub", goToHubCommand);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
-
-  // Since we are using a holonomic drivetrain, the rotation component of this pose
-  // represents the goal holonomic rotation
 
   // Intake Commands *luis is listening to top 10 ncs intro/outro songs while im writing ts*
   private final Intake Charlie = new Intake();
@@ -156,7 +161,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeOn", Jason);
     NamedCommands.registerCommand("IntakeOff", George);
     NamedCommands.registerCommand("Shoot", shootCommand);
-
+    NamedCommands.registerCommand("Pass", passCommand);
     NamedCommands.registerCommand("ShootSTOPPLEASEIBEG", stopShooterCommand);
 
     // Set up auto routines

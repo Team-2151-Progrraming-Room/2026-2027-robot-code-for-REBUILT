@@ -27,8 +27,8 @@ public class TunerConstants {
           .withKP(100)
           .withKI(0)
           .withKD(0.5)
-          .withKS(0.21097)
-          .withKV(0.65052)
+          .withKS(0.1)
+          .withKV(2.33)
           .withKA(0)
           .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
   // When using closed-loop control, the drive motor uses the control
@@ -80,14 +80,14 @@ public class TunerConstants {
 
   // Theoretical free speed (m/s) at 12 V applied output;
   // This needs to be tuned to your individual robot
-  public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.84);
+  public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(5.53);
 
   // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
   // This may need to be tuned to your individual robot
-  private static final double kCoupleRatio = 3.5714285714285716;
+  private static final double kCoupleRatio = 3.125;
 
-  private static final double kDriveGearRatio = 6.122448979591837;
-  private static final double kSteerGearRatio = 21.428571428571427;
+  private static final double kDriveGearRatio = 5.357142857142857;
+  private static final double kSteerGearRatio = 18.75;
   private static final Distance kWheelRadius = Inches.of(1.92);
 
   private static final boolean kInvertLeftSide = false;
@@ -138,23 +138,23 @@ public class TunerConstants {
   private static final int kFrontLeftDriveMotorId = 1;
   private static final int kFrontLeftSteerMotorId = 2;
   private static final int kFrontLeftEncoderId = 0;
-  private static final Angle kFrontLeftEncoderOffset = Rotations.of(0.38134765625);
+  private static final Angle kFrontLeftEncoderOffset = Rotations.of(0.381591796875);
   private static final boolean kFrontLeftSteerMotorInverted = true;
   private static final boolean kFrontLeftEncoderInverted = false;
 
-  private static final Distance kFrontLeftXPos = Inches.of(10.35);
-  private static final Distance kFrontLeftYPos = Inches.of(11.9);
+  private static final Distance kFrontLeftXPos = Inches.of(10.28);
+  private static final Distance kFrontLeftYPos = Inches.of(11.78);
 
   // Front Right
   private static final int kFrontRightDriveMotorId = 4;
   private static final int kFrontRightSteerMotorId = 5;
   private static final int kFrontRightEncoderId = 3;
-  private static final Angle kFrontRightEncoderOffset = Rotations.of(0.1318359375);
+  private static final Angle kFrontRightEncoderOffset = Rotations.of(0.13427734375);
   private static final boolean kFrontRightSteerMotorInverted = true;
   private static final boolean kFrontRightEncoderInverted = false;
 
-  private static final Distance kFrontRightXPos = Inches.of(10.35);
-  private static final Distance kFrontRightYPos = Inches.of(-11.9);
+  private static final Distance kFrontRightXPos = Inches.of(10.28);
+  private static final Distance kFrontRightYPos = Inches.of(-11.78);
 
   public static final SwerveModuleConstants<
           TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>
@@ -169,6 +169,7 @@ public class TunerConstants {
               kInvertLeftSide,
               kFrontLeftSteerMotorInverted,
               kFrontLeftEncoderInverted);
+
   public static final SwerveModuleConstants<
           TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>
       FrontRight =
@@ -183,17 +184,14 @@ public class TunerConstants {
               kFrontRightSteerMotorInverted,
               kFrontRightEncoderInverted);
 
-  /**
-   * Creates a CommandSwerveDrivetrain instance. This should only be called once in your robot
-   * program,.
-   */
-  // public static CommandSwerveDrivetrain createDrivetrain() {
-  //   return new CommandSwerveDrivetrain(
-  // DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight
-  //  );
-  // }
+  /*
 
-  /** Swerve Drive class utilizing CTR Electronics' Phoenix 6 API with the selected device types. */
+
+
+
+  /**
+   * Swerve Drive class utilizing CTR Electronics' Phoenix 6 API with the selected device types.
+   */
   public static class TunerSwerveDrivetrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> {
     /**
      * Constructs a CTRE SwerveDrivetrain using the specified constants.

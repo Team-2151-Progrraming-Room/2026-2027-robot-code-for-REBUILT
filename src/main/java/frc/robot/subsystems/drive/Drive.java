@@ -112,6 +112,7 @@ public class Drive extends SubsystemBase {
     modules[1] = new Module(frModuleIO, 1, TunerConstants.FrontRight);
     modules[2] = new Module(blModuleIO, 2, TunerConstantsBLBR.BackLeft);
     modules[3] = new Module(brModuleIO, 3, TunerConstantsBLBR.BackRight);
+    System.out.print(modules[0]);
 
     // Usage reporting for swerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_AdvantageKit);

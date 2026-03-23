@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathfindingCommand;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -98,6 +99,12 @@ public class Robot extends LoggedRobot {
   /** This function is called periodically when disabled. */
   @Override
   public void disabledPeriodic() {}
+
+  @Override
+  public void robotInit() {
+    Pathfinding.setPathfinder(new LocalADStarAK());
+    PathfindingCommand.warmupCommand().schedule();
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override

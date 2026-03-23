@@ -17,9 +17,6 @@ public class Intake extends SubsystemBase {
   private final TalonFXS m_IntakeMotor = new TalonFXS(IntakeConstants.kIntakeMotor);
   private final TalonFXSConfiguration configs = new TalonFXSConfiguration();
   private final CurrentLimitsConfigs IntakeLimitConfigs = new CurrentLimitsConfigs();
-  private boolean IntakeOn = false;
-  private boolean IntakeOff = false;
-  private boolean IntakeReverse = false;
   Color IntakeStatus = new Color(255, 0, 0);
 
   public Intake() {

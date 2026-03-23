@@ -10,6 +10,7 @@ import com.ctre.phoenix6.signals.MotorArrangementValue;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
@@ -44,6 +45,9 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
     System.out.println(kIndexer);
     System.out.println(kShooterBottomFront);
+    Color ShooterStatus = new Color(255,0,0);
+    SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
+
     // Stop motors
     kShooterTopFront.stopMotor();
     kShooterTopRear.stopMotor();
@@ -89,6 +93,9 @@ public class Shooter extends SubsystemBase {
     kShooterBottomRear.stopMotor();
     kFeeder.stopMotor();
     kIndexer.stopMotor();
+
+    Color ShooterStatus = new Color(255,0,0);
+    SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
   }
 
   public void stopIntakeShooter() {
@@ -98,7 +105,7 @@ public class Shooter extends SubsystemBase {
   public void hoodShootingPosition() {
     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
     if (shootingOrPassing == false) {
-      kHood.stopMotor();
+      kHood.setControl(m_request.withPosition(-12));
       shootingOrPassing = true;
     }
   }
@@ -123,6 +130,9 @@ public class Shooter extends SubsystemBase {
     kShooterBottomRear.set(0.7);
 
     kFeeder.set(-0.6);
+
+    Color ShooterStatus = new Color(0,255,0);
+    SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
   }
 
   public void passMode() {
@@ -133,6 +143,9 @@ public class Shooter extends SubsystemBase {
     kShooterBottomRear.set(1);
 
     kFeeder.set(-0.6);
+
+        Color ShooterStatus = new Color(255,255,0);
+    SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
   }
 
   public void indexerOn() {

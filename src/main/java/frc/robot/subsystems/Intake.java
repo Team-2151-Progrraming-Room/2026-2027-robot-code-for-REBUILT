@@ -48,7 +48,6 @@ public class Intake extends SubsystemBase {
     IntakeStatus = new Color(255, 0, 0);
     SmartDashboard.putString("IntakeStatus", IntakeStatus.toHexString());
     m_IntakeMotor.set(0);
-
   }
 
   public void IntakeReverse() {

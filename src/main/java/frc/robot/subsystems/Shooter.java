@@ -31,6 +31,7 @@ public class Shooter extends SubsystemBase {
   private final TalonFX kIndexer = new TalonFX(37);
 
   private final CurrentLimitsConfigs configs = new CurrentLimitsConfigs();
+  private final CurrentLimitsConfigs config = new CurrentLimitsConfigs();
 
   // configurations
   private final TalonFXConfiguration hey = new TalonFXConfiguration();
@@ -45,7 +46,7 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
     System.out.println(kIndexer);
     System.out.println(kShooterBottomFront);
-    Color ShooterStatus = new Color(255,0,0);
+    Color ShooterStatus = new Color(255, 0, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
 
     // Stop motors
@@ -57,13 +58,15 @@ public class Shooter extends SubsystemBase {
     kFeeder.stopMotor();
 
     // Config Current limit
-    configs.withSupplyCurrentLimit(15);
-    configs.withStatorCurrentLimit(15);
+    configs.withSupplyCurrentLimit(40);
+    configs.withStatorCurrentLimit(40);
+    config.withSupplyCurrentLimit(15);
+    config.withStatorCurrentLimit(15);
 
     // Minion configs with current limits
     hey2.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
     hey.withCurrentLimits(configs);
-    hey2.withCurrentLimits(configs);
+    hey2.withCurrentLimits(config);
     goo.withCurrentLimits(configs);
     hoodConfig.withCurrentLimits(configs);
 
@@ -78,7 +81,7 @@ public class Shooter extends SubsystemBase {
     kFeeder.getConfigurator().apply(hey2);
 
     // PID Configs
-    hoodConfig.Slot0.kP = 2.5;
+    hoodConfig.Slot0.kP = 2;
     hoodConfig.Slot0.kI = 0;
     hoodConfig.Slot0.kD = 0;
 
@@ -94,7 +97,7 @@ public class Shooter extends SubsystemBase {
     kFeeder.stopMotor();
     kIndexer.stopMotor();
 
-    Color ShooterStatus = new Color(255,0,0);
+    Color ShooterStatus = new Color(255, 0, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
   }
 
@@ -131,7 +134,7 @@ public class Shooter extends SubsystemBase {
 
     kFeeder.set(-0.6);
 
-    Color ShooterStatus = new Color(0,255,0);
+    Color ShooterStatus = new Color(0, 255, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
   }
 
@@ -144,7 +147,7 @@ public class Shooter extends SubsystemBase {
 
     kFeeder.set(-0.6);
 
-        Color ShooterStatus = new Color(255,255,0);
+    Color ShooterStatus = new Color(255, 255, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
   }
 

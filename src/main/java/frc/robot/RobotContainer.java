@@ -88,11 +88,11 @@ public class RobotContainer {
   private final Intake Charlie = new Intake();
   private final Command George = Charlie.IntakeOffCommand();
   private final Command Jason = Charlie.IntakeOnCommand();
-  private final Command Luis = Charlie.IntakeReverseCommand();
-
+  private final Command Alex = Charlie.IntakeReverseCommand();
+  public int infinitevoid = 0;
   // Touchboared docoammadnds
-  // private final OneShotButton ShootingMode = new OneShotButton(ShootingMode, new *Command)
-  // private final OneShotButton PassingMode = new OneShotButton(PassingMode, new *Command)
+  // private final OneShotButton ShootingMode1 = new OneShotButton(ShootingMode, new *Command)
+  // private final OneShotButton PassingMode1 = new OneShotButton(PassingMode, new *Command)
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -214,15 +214,14 @@ public class RobotContainer {
     // Switch to X pattern when X button is pressed
     controller.y().onTrue((George));
     controller.x().onTrue((Jason));
-    controller.b().onTrue((Luis));
+    controller.b().onTrue((Alex));
 
     controller.rightTrigger().whileTrue(shooterCommands.shootModeCommand());
     controller.rightTrigger().whileFalse(shooterCommands.stopShooterCommand());
-    controller.rightBumper().whileTrue(shooterCommands.passModeCommand());
-    if (controller.leftTrigger().getAsBoolean() == false
-        && controller.leftBumper().getAsBoolean() == false) {
-      shooterCommands.hoodStopCommand();
-    }
+    controller.leftTrigger().whileTrue(shooterCommands.hoodDowCommand());
+    controller.leftBumper().whileTrue(shooterCommands.hoodUpCommand());
+    controller.leftTrigger().whileFalse(shooterCommands.hoodStopCommand());
+    controller.leftBumper().whileFalse(shooterCommands.hoodStopCommand());
 
     // Reset gyro to 0° when B button is pressed
     controller

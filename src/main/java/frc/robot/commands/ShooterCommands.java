@@ -19,7 +19,7 @@ public class ShooterCommands extends Command {
 
   public Command ShootingMode() {
     return Commands.sequence(
-        shootersystems.shootModeCommand(), 
+        shootersystems.shootModeCommand(),
         shootersystems.HoodShootingCommand(),
         Commands.waitSeconds(0.3),
         shootersystems.hoodStopCommand(),
@@ -29,7 +29,7 @@ public class ShooterCommands extends Command {
 
   public Command PassingMode() {
     return Commands.sequence(
-        shootersystems.passModeCommand(), 
+        shootersystems.passModeCommand(),
         shootersystems.HoodPassingCommand(),
         Commands.waitSeconds(0.6),
         shootersystems.IndexerOnCommand());

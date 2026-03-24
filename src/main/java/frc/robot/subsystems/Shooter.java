@@ -31,6 +31,7 @@ public class Shooter extends SubsystemBase {
   private final TalonFX kIndexer = new TalonFX(37);
 
   private final CurrentLimitsConfigs configs = new CurrentLimitsConfigs();
+  private final CurrentLimitsConfigs configslower = new CurrentLimitsConfigs();
   private final CurrentLimitsConfigs config = new CurrentLimitsConfigs();
 
   // configurations
@@ -60,6 +61,8 @@ public class Shooter extends SubsystemBase {
     // Config Current limit
     configs.withSupplyCurrentLimit(40);
     configs.withStatorCurrentLimit(40);
+    configslower.withSupplyCurrentLimit(7);
+    configslower.withStatorCurrentLimit(7);
     config.withSupplyCurrentLimit(15);
     config.withStatorCurrentLimit(15);
 
@@ -67,8 +70,8 @@ public class Shooter extends SubsystemBase {
     hey2.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
     hey.withCurrentLimits(configs);
     hey2.withCurrentLimits(config);
-    goo.withCurrentLimits(configs);
-    hoodConfig.withCurrentLimits(configs);
+    goo.withCurrentLimits(configslower);
+    hoodConfig.withCurrentLimits(configslower);
 
     // Apply TalonFX Configuration
     kShooterTopFront.getConfigurator().apply(hey);
@@ -133,17 +136,17 @@ public class Shooter extends SubsystemBase {
     kShooterBottomRear.set(0.7);
 
     kFeeder.set(-0.6);
-
+    indexerOn();
     Color ShooterStatus = new Color(0, 255, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
   }
 
   public void passMode() {
     SmartDashboard.putString("Shooter Mode", "Pass Mode");
-    kShooterTopFront.set(1);
-    kShooterTopRear.set(-1);
-    kShooterBottomFront.set(-1);
-    kShooterBottomRear.set(1);
+    kShooterTopFront.set(0.8);
+    kShooterTopRear.set(-0.8);
+    kShooterBottomFront.set(-0.9);
+    kShooterBottomRear.set(0.9);
 
     kFeeder.set(-0.6);
 
@@ -154,6 +157,14 @@ public class Shooter extends SubsystemBase {
   public void indexerOn() {
     kIndexer.set(0.4);
     System.out.println("e");
+  }
+
+  public void HoodUp() {
+    kHood.set(0.2);
+  }
+
+  public void HoodDown() {
+    kHood.set(-0.2);
   }
 
   public void indexerOff() {
@@ -249,6 +260,20 @@ public class Shooter extends SubsystemBase {
     return runOnce(
         () -> {
           stopShooter();
+        });
+  }
+
+  public Command hoodDowCommand() {
+    return runOnce(
+        () -> {
+          HoodDown();
+        });
+  }
+
+  public Command hoodUpCommand() {
+    return runOnce(
+        () -> {
+          HoodUp();
         });
   }
 

@@ -33,16 +33,16 @@ public final class Constants {
     // Cam mounted facing forward, half a meter forward of center, half a meter up from center.
     public static final Transform3d kRobotToFrontRightCamera =
         new Transform3d(
-            new Translation3d(0.2921, -0.31242, 0.127), new Rotation3d(0, 0.5235987756, 0));
+            new Translation3d(0.2921, -0.31242, 0.127), new Rotation3d(0, 0.5235987756, 1.571));
     public static final Transform3d kRobotToFrontLeftCamera =
         new Transform3d(
             new Translation3d(0.2921, 0.31242, 0.127), new Rotation3d(0, 0.5235987756, 0));
     public static final Transform3d kRobotToBackRightCamera =
         new Transform3d(
-            new Translation3d(-0.254, -0.3048, 0.127), new Rotation3d(0, 0.5235987756, 0));
+            new Translation3d(-0.254, -0.3048, 0.127), new Rotation3d(0, 0.5235987756, 3.1415926));
     public static final Transform3d kRobotToBackLeftCamera =
         new Transform3d(
-            new Translation3d(-0.254, 0.3175, 0.127), new Rotation3d(0, 0.5235987756, 0));
+            new Translation3d(-0.254, 0.3175, 0.127), new Rotation3d(0, 0.5235987756, 4.71239));
 
     // The layout of the AprilTags on the field
     public static final AprilTagFieldLayout kTagLayout =
@@ -58,10 +58,10 @@ public final class Constants {
     public static final int kIntakeMotor = 14;
 
     public static final int kIntakeStatorCurrentLimit =
-        10; // 10 Amps should be good for stator according to Mr. Zog. Regardless, might be
+        20; // 10 Amps should be good for stator according to Mr. Zog. Regardless, might be
     // temporary.
     public static final int kIntakeSupplyCurrentLimit =
-        10; // Supply should at the very least the same value as stator, given that it determines
+        20; // Supply should at the very least the same value as stator, given that it determines
     // how much current can be drawn from the battery.
   }
 

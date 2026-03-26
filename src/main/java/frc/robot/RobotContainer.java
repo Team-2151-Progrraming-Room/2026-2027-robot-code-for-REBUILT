@@ -89,7 +89,9 @@ public class RobotContainer {
   private final Command George = Charlie.IntakeOffCommand();
   private final Command Jason = Charlie.IntakeOnCommand();
   private final Command Alex = Charlie.IntakeReverseCommand();
+  private final Command Bob = Charlie.IntakeIdleCommand();
   public int infinitevoid = 0;
+
   // Touchboared docoammadnds
   // private final OneShotButton ShootingMode1 = new OneShotButton(ShootingMode, new *Command)
   // private final OneShotButton PassingMode1 = new OneShotButton(PassingMode, new *Command)
@@ -158,7 +160,7 @@ public class RobotContainer {
     }
 
     NamedCommands.registerCommand("IntakeOn", Jason);
-    NamedCommands.registerCommand("IntakeOff", George);
+    NamedCommands.registerCommand("IntakeOff", Bob);
     NamedCommands.registerCommand("Shoot", shootCommand);
     NamedCommands.registerCommand("Pass", passCommand);
     NamedCommands.registerCommand("ShootSTOPPLEASEIBEG", stopShooterCommand);
@@ -212,18 +214,21 @@ public class RobotContainer {
                 () -> Rotation2d.kZero));
 
     // Switch to X pattern when X button is pressed
-    controller.y().onTrue((George));
+    controller.y().onTrue((Bob));
     controller.x().onTrue((Jason));
     controller.b().onTrue((Alex));
-
+    //  while (infinitevoid == 0) {
+    //  if (controller.leftBumper().getAsBoolean() == false
+    //    && controller.leftTrigger().getAsBoolean() == false) {
+    //   shooterCommands.hoodStopCommand().schedule();
+    //  }
+    // }
     controller.rightTrigger().whileTrue(shooterCommands.shootModeCommand());
     controller.rightTrigger().whileFalse(shooterCommands.stopShooterCommand());
-    controller.leftTrigger().whileTrue(shooterCommands.hoodDowCommand());
-    controller.leftBumper().whileTrue(shooterCommands.hoodUpCommand());
-    controller.leftTrigger().whileFalse(shooterCommands.hoodStopCommand());
-    controller.leftBumper().whileFalse(shooterCommands.hoodStopCommand());
-
-    // Reset gyro to 0° when B button is pressed
+    controller.leftTrigger().whileTrue(shooterCommands.passModeCommand());
+    controller.leftTrigger().whileFalse(shooterCommands.stopShooterCommand());
+    // if the right trigger is not being pressed the intake will be on idle mode
+    // if hood is not moving up or down stop the hood
     controller
         .a()
         .onTrue(
@@ -234,6 +239,7 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
   }
+  // Reset gyro to 0° when B button is pressed
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

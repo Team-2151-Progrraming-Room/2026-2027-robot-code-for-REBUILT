@@ -44,6 +44,12 @@ public class Intake extends SubsystemBase {
     m_IntakeMotor.set(-0.6);
   }
 
+  public void IntakeIdle() {
+    IntakeStatus = new Color(255, 0, 0);
+    SmartDashboard.putString("IntakeStatus", IntakeStatus.toHexString());
+    m_IntakeMotor.set(-0.2);
+  }
+
   public void IntakeOff() {
     IntakeStatus = new Color(255, 0, 0);
     SmartDashboard.putString("IntakeStatus", IntakeStatus.toHexString());
@@ -75,6 +81,13 @@ public class Intake extends SubsystemBase {
     return run(
         () -> {
           IntakeReverse();
+        });
+  }
+
+  public Command IntakeIdleCommand() {
+    return run(
+        () -> {
+          IntakeIdle();
         });
   }
 }

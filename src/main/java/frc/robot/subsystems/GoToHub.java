@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class GoToHub extends SubsystemBase {
 
-  Pose2d targetPoseToHub = new Pose2d(2.68, 3.666, Rotation2d.fromDegrees(-60));
+  Pose2d targetPoseToHub = new Pose2d(1.72, 3.705, Rotation2d.fromDegrees(-60));
 
   // Create the constraints to use while pathfinding
   PathConstraints constraints =

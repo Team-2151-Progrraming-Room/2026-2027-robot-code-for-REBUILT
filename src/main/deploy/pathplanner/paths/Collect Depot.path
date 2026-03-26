@@ -3,29 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0465049928673325,
-        "y": 7.431398002853067
+        "x": 2.382910128388017,
+        "y": 5.8399429386584965
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.956653697232265,
-        "y": 6.948321586288457
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.0465049928673325,
-        "y": 6.383366619107758
-      },
-      "prevControl": {
-        "x": 2.2308535228144284,
-        "y": 6.725460520978718
-      },
-      "nextControl": {
-        "x": 1.6388684846691164,
-        "y": 5.626919232873647
+        "x": 2.2930588327529495,
+        "y": 5.3568665220938865
       },
       "isLocked": false,
       "linkedName": null
@@ -48,28 +32,12 @@
     },
     {
       "anchor": {
-        "x": 1.1925534950008194,
-        "y": 6.124593437945229
+        "x": 2.382910128388017,
+        "y": 5.8399429386584965
       },
       "prevControl": {
-        "x": 0.9132392183813547,
-        "y": 5.770256888808278
-      },
-      "nextControl": {
-        "x": 1.4879251261966548,
-        "y": 6.499300258440028
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.0465049928673325,
-        "y": 7.431398002853067
-      },
-      "prevControl": {
-        "x": 2.169497308088599,
-        "y": 7.2137448604532555
+        "x": 2.5059024436092834,
+        "y": 5.622289796258685
       },
       "nextControl": null,
       "isLocked": false,
@@ -78,15 +46,15 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1,
+      "waypointRelativePos": 0.5,
       "rotationDegrees": 180.0
     },
     {
-      "waypointRelativePos": 2,
+      "waypointRelativePos": 1.0,
       "rotationDegrees": 180.0
     },
     {
-      "waypointRelativePos": 3,
+      "waypointRelativePos": 1.5,
       "rotationDegrees": -59.036243467455584
     }
   ],
@@ -109,7 +77,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 179.99999999998187
   },
   "useDefaultConstraints": true
 }

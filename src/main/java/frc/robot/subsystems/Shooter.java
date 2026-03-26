@@ -61,8 +61,8 @@ public class Shooter extends SubsystemBase {
     // Config Current limit
     configs.withSupplyCurrentLimit(40);
     configs.withStatorCurrentLimit(40);
-    configslower.withSupplyCurrentLimit(7);
-    configslower.withStatorCurrentLimit(7);
+    configslower.withSupplyCurrentLimit(25);
+    configslower.withStatorCurrentLimit(25);
     config.withSupplyCurrentLimit(15);
     config.withStatorCurrentLimit(15);
 
@@ -84,9 +84,9 @@ public class Shooter extends SubsystemBase {
     kFeeder.getConfigurator().apply(hey2);
 
     // PID Configs
-    hoodConfig.Slot0.kP = 2;
-    hoodConfig.Slot0.kI = 0;
-    hoodConfig.Slot0.kD = 0;
+    hoodConfig.Slot0.kP = 0.2;
+    hoodConfig.Slot0.kI = 0.2;
+    hoodConfig.Slot0.kD = 0.1;
 
     // Apply PID Configs
     kHood.getConfigurator().apply(hoodConfig);
@@ -111,7 +111,7 @@ public class Shooter extends SubsystemBase {
   public void hoodShootingPosition() {
     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
     if (shootingOrPassing == false) {
-      kHood.setControl(m_request.withPosition(-12));
+      kHood.setControl(m_request.withPosition(-9.9));
       shootingOrPassing = true;
     }
   }
@@ -119,7 +119,7 @@ public class Shooter extends SubsystemBase {
   public void hoodPassingPosition() {
     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
     if (shootingOrPassing == true) {
-      kHood.setControl(m_request.withPosition(13));
+      kHood.setControl(m_request.withPosition(13.5));
       shootingOrPassing = false;
     }
   }
@@ -130,26 +130,26 @@ public class Shooter extends SubsystemBase {
 
   public void shootMode() {
     SmartDashboard.putString("Shooter Mode", "Shoot Mode");
-    kShooterTopFront.set(0.7);
-    kShooterTopRear.set(-0.7);
-    kShooterBottomFront.set(-0.7);
-    kShooterBottomRear.set(0.7);
+    kShooterTopFront.set(0.8);
+    kShooterTopRear.set(-0.8);
+    kShooterBottomFront.set(-0.8);
+    kShooterBottomRear.set(0.8);
 
     kFeeder.set(-0.6);
-    indexerOn();
+    kIndexer.set(0.4);
     Color ShooterStatus = new Color(0, 255, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
   }
 
   public void passMode() {
     SmartDashboard.putString("Shooter Mode", "Pass Mode");
-    kShooterTopFront.set(0.8);
-    kShooterTopRear.set(-0.8);
-    kShooterBottomFront.set(-0.9);
-    kShooterBottomRear.set(0.9);
+    kShooterTopFront.set(0.9);
+    kShooterTopRear.set(-0.9);
+    kShooterBottomFront.set(-1.0);
+    kShooterBottomRear.set(1.0);
 
     kFeeder.set(-0.6);
-
+    kIndexer.set(0.4);
     Color ShooterStatus = new Color(255, 255, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
   }

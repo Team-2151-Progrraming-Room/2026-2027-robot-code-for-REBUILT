@@ -21,9 +21,9 @@ public class ShooterCommands extends Command {
     return Commands.sequence(
         shootersystems.shootModeCommand(),
         shootersystems.HoodShootingCommand(),
-        Commands.waitSeconds(0.3),
+        Commands.waitSeconds(0.4),
         shootersystems.hoodStopCommand(),
-        Commands.waitSeconds(0.5),
+        Commands.waitSeconds(1),
         shootersystems.IndexerOnCommand());
   }
 
@@ -31,7 +31,7 @@ public class ShooterCommands extends Command {
     return Commands.sequence(
         shootersystems.passModeCommand(),
         shootersystems.HoodPassingCommand(),
-        Commands.waitSeconds(0.6),
+        Commands.waitSeconds(1.5),
         shootersystems.IndexerOnCommand());
   }
 }

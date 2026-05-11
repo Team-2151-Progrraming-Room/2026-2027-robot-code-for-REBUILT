@@ -39,6 +39,7 @@ public class Shooter extends SubsystemBase {
   private TalonFXConfiguration goo = new TalonFXConfiguration();
   private final TalonFXSConfiguration hey2 = new TalonFXSConfiguration();
   private final TalonFXConfiguration hoodConfig = new TalonFXConfiguration();
+  private final TalonFXConfiguration VelocityControl1 = new TalonFXConfiguration();
   public double shootSpeed = 0.7;
 
   // Boolean for Passing and Shooting Mode
@@ -72,6 +73,13 @@ public class Shooter extends SubsystemBase {
     hey2.withCurrentLimits(config);
     goo.withCurrentLimits(configslower);
     hoodConfig.withCurrentLimits(configslower);
+    VelocityControl1.withCurrentLimits(configslower);
+
+    VelocityControl1.Slot0.kS = 0; // Add 0.1 V output to overcome static friction
+    VelocityControl1.Slot0.kV = 6; // A velocity target of 1 rps results in 0.12 V output
+    VelocityControl1.Slot0.kP = 0; // An error of 1 rps results in 0.11 V output
+    VelocityControl1.Slot0.kI = 0; // no output for integrated error
+    VelocityControl1.Slot0.kD = 0; // no output for error derivative
 
     // Apply TalonFX Configuration
     kShooterTopFront.getConfigurator().apply(hey);
@@ -85,8 +93,8 @@ public class Shooter extends SubsystemBase {
 
     // PID Configs
     hoodConfig.Slot0.kP = 0.2;
-    hoodConfig.Slot0.kI = 0.2;
-    hoodConfig.Slot0.kD = 0.1;
+    hoodConfig.Slot0.kI = 0.0;
+    hoodConfig.Slot0.kD = 0.0;
 
     // Apply PID Configs
     kHood.getConfigurator().apply(hoodConfig);
@@ -111,7 +119,7 @@ public class Shooter extends SubsystemBase {
   public void hoodShootingPosition() {
     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
     if (shootingOrPassing == false) {
-      kHood.setControl(m_request.withPosition(-9.9));
+      kHood.setControl(m_request.withPosition(-4));
       shootingOrPassing = true;
     }
   }
@@ -119,7 +127,7 @@ public class Shooter extends SubsystemBase {
   public void hoodPassingPosition() {
     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
     if (shootingOrPassing == true) {
-      kHood.setControl(m_request.withPosition(13.5));
+      kHood.setControl(m_request.withPosition(12));
       shootingOrPassing = false;
     }
   }
@@ -130,10 +138,10 @@ public class Shooter extends SubsystemBase {
 
   public void shootMode() {
     SmartDashboard.putString("Shooter Mode", "Shoot Mode");
-    kShooterTopFront.set(0.8);
-    kShooterTopRear.set(-0.8);
-    kShooterBottomFront.set(-0.8);
-    kShooterBottomRear.set(0.8);
+    kShooterTopFront.set(0.7);
+    kShooterTopRear.set(-0.7);
+    kShooterBottomFront.set(-0.7);
+    kShooterBottomRear.set(0.7);
 
     kFeeder.set(-0.6);
     kIndexer.set(0.4);
@@ -156,7 +164,10 @@ public class Shooter extends SubsystemBase {
 
   public void indexerOn() {
     kIndexer.set(0.4);
-    System.out.println("e");
+  }
+
+  public void indexerReverse() {
+    kIndexer.set(-0.4);
   }
 
   public void HoodUp() {
@@ -244,6 +255,13 @@ public class Shooter extends SubsystemBase {
     return runOnce(
         () -> {
           hoodPassingPosition();
+        });
+  }
+
+  public Command indexerReverseCommand() {
+    return runOnce(
+        () -> {
+          indexerReverse();
         });
   }
 

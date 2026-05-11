@@ -62,6 +62,7 @@ public class RobotContainer {
   private final Command shootCommand = shooterCommandsFiled.ShootingMode();
   private final Command passCommand = shooterCommandsFiled.PassingMode();
   private final Command stopShooterCommand = shooterCommands.stopShooterCommand();
+  private final Command indexerReverseCommand = shooterCommands.indexerReverseCommand();
 
   // Go To Hub Command
   private final Command goToHubCommand = goToHub.GoToHubCommand();
@@ -223,12 +224,14 @@ public class RobotContainer {
     //   shooterCommands.hoodStopCommand().schedule();
     //  }
     // }
-    controller.rightTrigger().whileTrue(shooterCommands.shootModeCommand());
-    controller.rightTrigger().whileFalse(shooterCommands.stopShooterCommand());
-    controller.leftTrigger().whileTrue(shooterCommands.passModeCommand());
-    controller.leftTrigger().whileFalse(shooterCommands.stopShooterCommand());
+    // controller.rightTrigger().whileTrue(shooterCommands.shootModeCommand());
+    // controller.rightTrigger().whileFalse(shooterCommands.stopShooterCommand());
+    // controller.leftTrigger().whileTrue(shooterCommands.passModeCommand());
+    // controller.leftTrigger().whileFalse(shooterCommands.stopShooterCommand());
     // if the right trigger is not being pressed the intake will be on idle mode
     // if hood is not moving up or down stop the hood
+    controller.leftBumper().whileTrue(indexerReverseCommand);
+
     controller
         .a()
         .onTrue(

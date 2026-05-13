@@ -4,6 +4,7 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
@@ -26,8 +27,9 @@ public class Shooter extends SubsystemBase {
 
   private final TalonFX kHood = new TalonFX(ShooterConstants.kHood);
 
-  // minion motor for feeder and indexer
+  // minion motor for feeder
   private final TalonFXS kFeeder = new TalonFXS(ShooterConstants.kFeeder);
+
   private final TalonFX kIndexer = new TalonFX(37);
 
   private final CurrentLimitsConfigs configs = new CurrentLimitsConfigs();
@@ -73,11 +75,11 @@ public class Shooter extends SubsystemBase {
     hey2.withCurrentLimits(config);
     goo.withCurrentLimits(configslower);
     hoodConfig.withCurrentLimits(configslower);
-    VelocityControl1.withCurrentLimits(configslower);
+    VelocityControl1.withCurrentLimits(configs);
 
     VelocityControl1.Slot0.kS = 0; // Add 0.1 V output to overcome static friction
-    VelocityControl1.Slot0.kV = 6; // A velocity target of 1 rps results in 0.12 V output
-    VelocityControl1.Slot0.kP = 0; // An error of 1 rps results in 0.11 V output
+    VelocityControl1.Slot0.kV = 0.15; // A velocity target of 1 rps results in 0.12 V output
+    VelocityControl1.Slot0.kP = 0.15; // An error of 1 rps results in 0.11 V output
     VelocityControl1.Slot0.kI = 0; // no output for integrated error
     VelocityControl1.Slot0.kD = 0; // no output for error derivative
 
@@ -86,13 +88,13 @@ public class Shooter extends SubsystemBase {
     kShooterTopRear.getConfigurator().apply(hey);
     kShooterBottomFront.getConfigurator().apply(hey);
     kShooterBottomRear.getConfigurator().apply(hey);
-    kIndexer.getConfigurator().apply(hey);
+    kIndexer.getConfigurator().apply(VelocityControl1);
 
     // Apply TalonFXS Configuration
     kFeeder.getConfigurator().apply(hey2);
 
     // PID Configs
-    hoodConfig.Slot0.kP = 0.2;
+    hoodConfig.Slot0.kP = 0.3;
     hoodConfig.Slot0.kI = 0.0;
     hoodConfig.Slot0.kD = 0.0;
 
@@ -144,7 +146,9 @@ public class Shooter extends SubsystemBase {
     kShooterBottomRear.set(0.7);
 
     kFeeder.set(-0.6);
-    kIndexer.set(0.4);
+    final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+    kIndexer.setControl(m_request.withVelocity(10).withFeedForward(0.2));
+
     Color ShooterStatus = new Color(0, 255, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
   }
@@ -157,17 +161,21 @@ public class Shooter extends SubsystemBase {
     kShooterBottomRear.set(1.0);
 
     kFeeder.set(-0.6);
-    kIndexer.set(0.4);
+    final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+    kIndexer.setControl(m_request.withVelocity(10).withFeedForward(0.2));
+
     Color ShooterStatus = new Color(255, 255, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
   }
 
   public void indexerOn() {
-    kIndexer.set(0.4);
+    final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+    kIndexer.setControl(m_request.withVelocity(10).withFeedForward(0.2));
   }
 
   public void indexerReverse() {
-    kIndexer.set(-0.4);
+    final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
+    kIndexer.setControl(m_request.withVelocity(-10).withFeedForward(0.2));
   }
 
   public void HoodUp() {

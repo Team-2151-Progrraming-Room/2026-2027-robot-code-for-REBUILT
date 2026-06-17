@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import frc.robot.subsystems.drive.Drive;
 import java.util.List;
 import java.util.Optional;
 import org.photonvision.EstimatedRobotPose;
@@ -26,6 +27,7 @@ public class Vision {
   private final PhotonPoseEstimator photonEstimatorBR;
   private final PhotonPoseEstimator photonEstimatorBL;
   private Matrix<N3, N1> curStdDevs;
+  private Drive drive;
   private final EstimateConsumer estConsumer;
 
   // Simulation
@@ -74,6 +76,8 @@ public class Vision {
             var estStdDevs = getEstimationStdDevs();
 
             estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
+            drive.addVisionMeasurement(
+                est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
           });
     }
     for (var result : cameraFL.getAllUnreadResults()) {
@@ -100,6 +104,8 @@ public class Vision {
             var estStdDevs = getEstimationStdDevs();
 
             estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
+            drive.addVisionMeasurement(
+                est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
           });
     }
     for (var result : cameraBL.getAllUnreadResults()) {
@@ -126,6 +132,8 @@ public class Vision {
             var estStdDevs = getEstimationStdDevs();
 
             estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
+            drive.addVisionMeasurement(
+                est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
           });
     }
     for (var result : cameraBR.getAllUnreadResults()) {
@@ -152,6 +160,8 @@ public class Vision {
             var estStdDevs = getEstimationStdDevs();
 
             estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
+            drive.addVisionMeasurement(
+                est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
           });
     }
   }

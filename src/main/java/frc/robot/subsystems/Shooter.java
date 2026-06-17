@@ -93,34 +93,34 @@ public class Shooter extends SubsystemBase {
     VelocityControl1.Slot0.kI = 0; // no output for integrated error
     VelocityControl1.Slot0.kD = 0; // no output for error derivative
 
-    VelocityControl2.Slot0.kS = 0; 
-    VelocityControl2.Slot0.kV = 0.15; 
-    VelocityControl2.Slot0.kP = 0.15; 
-    VelocityControl2.Slot0.kI = 0; 
-    VelocityControl2.Slot0.kD = 0; 
+    VelocityControl2.Slot0.kS = 0;
+    VelocityControl2.Slot0.kV = 0.15;
+    VelocityControl2.Slot0.kP = 0.15;
+    VelocityControl2.Slot0.kI = 0;
+    VelocityControl2.Slot0.kD = 0;
 
-    VelocityControl3.Slot0.kS = 0; 
-    VelocityControl3.Slot0.kV = 0.15; 
+    VelocityControl3.Slot0.kS = 0;
+    VelocityControl3.Slot0.kV = 0.15;
     VelocityControl3.Slot0.kP = 0.15;
-    VelocityControl3.Slot0.kI = 0; 
-    VelocityControl3.Slot0.kD = 0; 
+    VelocityControl3.Slot0.kI = 0;
+    VelocityControl3.Slot0.kD = 0;
 
-    VelocityControl4.Slot0.kS = 0; 
-    VelocityControl4.Slot0.kV = 0.15; 
-    VelocityControl4.Slot0.kP = 0.15; 
-    VelocityControl4.Slot0.kI = 0; 
-    VelocityControl4.Slot0.kD = 0; 
+    VelocityControl4.Slot0.kS = 0;
+    VelocityControl4.Slot0.kV = 0.15;
+    VelocityControl4.Slot0.kP = 0.15;
+    VelocityControl4.Slot0.kI = 0;
+    VelocityControl4.Slot0.kD = 0;
 
-    VelocityControl5.Slot0.kS = 0; 
-    VelocityControl5.Slot0.kV = 0.15; 
-    VelocityControl5.Slot0.kP = 0.15; 
-    VelocityControl5.Slot0.kI = 0; 
+    VelocityControl5.Slot0.kS = 0;
+    VelocityControl5.Slot0.kV = 0.15;
+    VelocityControl5.Slot0.kP = 0.15;
+    VelocityControl5.Slot0.kI = 0;
     VelocityControl5.Slot0.kD = 0;
 
     VelocityControl6.Slot0.kS = 0;
-    VelocityControl6.Slot0.kV = 0.15;
-    VelocityControl6.Slot0.kP = 0.15; 
-    VelocityControl6.Slot0.kI = 0; 
+    VelocityControl6.Slot0.kV = 1;
+    VelocityControl6.Slot0.kP = 1;
+    VelocityControl6.Slot0.kI = 0;
     VelocityControl6.Slot0.kD = 0;
 
     // Apply TalonFX Configuration
@@ -135,7 +135,7 @@ public class Shooter extends SubsystemBase {
 
     // PID Configs
     hoodConfig.Slot0.kP = 0.3;
-    hoodConfig.Slot0.kI = 0.0;
+    hoodConfig.Slot0.kI = 0.1;
     hoodConfig.Slot0.kD = 0.0;
 
     // Apply PID Configs
@@ -182,23 +182,23 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putString("Shooter Mode", "Shoot Mode");
 
     final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-    kIndexer.setControl(m_request.withVelocity(10).withFeedForward(0.2));
+    kIndexer.setControl(m_request.withVelocity(20).withFeedForward(0.2));
 
     final VelocityVoltage m_request1 = new VelocityVoltage(0).withSlot(0);
-    kShooterTopFront.setControl(m_request1.withVelocity(1).withFeedForward(0.2));
+    kShooterTopFront.setControl(m_request1.withVelocity(40).withFeedForward(0.2));
 
     final VelocityVoltage m_request2 = new VelocityVoltage(0).withSlot(0);
-    kShooterTopRear.setControl(m_request2.withVelocity(-1).withFeedForward(0.2));
+    kShooterTopRear.setControl(m_request2.withVelocity(-40).withFeedForward(0.2));
 
     final VelocityVoltage m_request3 = new VelocityVoltage(0).withSlot(0);
-    kShooterBottomFront.setControl(m_request3.withVelocity(-1).withFeedForward(0.2));
+    kShooterBottomFront.setControl(m_request3.withVelocity(-40).withFeedForward(0.2));
 
     final VelocityVoltage m_request4 = new VelocityVoltage(0).withSlot(0);
-    kShooterBottomRear.setControl(m_request4.withVelocity(1).withFeedForward(0.2));
+    kShooterBottomRear.setControl(m_request4.withVelocity(40).withFeedForward(0.2));
 
     final VelocityVoltage m_request5 = new VelocityVoltage(0).withSlot(0);
-    kFeeder.setControl(m_request5.withVelocity(-1).withFeedForward(0.2));
-    
+    kFeeder.setControl(m_request5.withVelocity(-20).withFeedForward(0.2));
+
     Color ShooterStatus = new Color(0, 255, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
   }
@@ -207,22 +207,22 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putString("Shooter Mode", "Pass Mode");
 
     final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-    kIndexer.setControl(m_request.withVelocity(10).withFeedForward(0.2));
+    kIndexer.setControl(m_request.withVelocity(20).withFeedForward(0.2));
 
     final VelocityVoltage m_request1 = new VelocityVoltage(0).withSlot(0);
-    kShooterTopFront.setControl(m_request1.withVelocity(1).withFeedForward(0.2));
+    kShooterTopFront.setControl(m_request1.withVelocity(40).withFeedForward(0.2));
 
     final VelocityVoltage m_request2 = new VelocityVoltage(0).withSlot(0);
-    kShooterTopRear.setControl(m_request2.withVelocity(-1).withFeedForward(0.2));
+    kShooterTopRear.setControl(m_request2.withVelocity(-40).withFeedForward(0.2));
 
     final VelocityVoltage m_request3 = new VelocityVoltage(0).withSlot(0);
-    kShooterBottomFront.setControl(m_request3.withVelocity(-1).withFeedForward(0.2));
+    kShooterBottomFront.setControl(m_request3.withVelocity(-40).withFeedForward(0.2));
 
     final VelocityVoltage m_request4 = new VelocityVoltage(0).withSlot(0);
-    kShooterBottomRear.setControl(m_request4.withVelocity(1).withFeedForward(0.2));
+    kShooterBottomRear.setControl(m_request4.withVelocity(40).withFeedForward(0.2));
 
     final VelocityVoltage m_request5 = new VelocityVoltage(0).withSlot(0);
-    kFeeder.setControl(m_request5.withVelocity(-1).withFeedForward(0.2));
+    kFeeder.setControl(m_request5.withVelocity(-20).withFeedForward(0.2));
 
     Color ShooterStatus = new Color(255, 255, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());

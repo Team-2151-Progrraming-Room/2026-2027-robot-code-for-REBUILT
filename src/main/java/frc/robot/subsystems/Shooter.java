@@ -118,8 +118,8 @@ public class Shooter extends SubsystemBase {
     VelocityControl5.Slot0.kD = 0;
 
     VelocityControl6.Slot0.kS = 0;
-    VelocityControl6.Slot0.kV = 1;
-    VelocityControl6.Slot0.kP = 1;
+    VelocityControl6.Slot0.kV = 2;
+    VelocityControl6.Slot0.kP = 2;
     VelocityControl6.Slot0.kI = 0;
     VelocityControl6.Slot0.kD = 0;
 

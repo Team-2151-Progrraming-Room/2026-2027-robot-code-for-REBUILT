@@ -30,12 +30,12 @@ public class Intake extends SubsystemBase {
     // Config applications
     configs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
     VelocityControl1.withCurrentLimits(IntakeLimitConfigs);
-
+     
     configs.withCurrentLimits(
         IntakeLimitConfigs); // Current have this commented out so that the temp current limits
     // don't get applied
 
-    m_IntakeMotor.getConfigurator().apply(VelocityControl1);
+    m_IntakeMotor.getConfigurator().apply(configs);
   }
 
   // methods to turn motor on

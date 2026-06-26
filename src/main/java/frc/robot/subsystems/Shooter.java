@@ -76,6 +76,7 @@ public class Shooter extends SubsystemBase {
 
     // Minion configs with current limits
     hey2.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+    VelocityControl6.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
     hey.withCurrentLimits(configs);
     hey2.withCurrentLimits(config);
     goo.withCurrentLimits(configslower);
@@ -118,8 +119,8 @@ public class Shooter extends SubsystemBase {
     VelocityControl5.Slot0.kD = 0;
 
     VelocityControl6.Slot0.kS = 0;
-    VelocityControl6.Slot0.kV = 2;
-    VelocityControl6.Slot0.kP = 2;
+    VelocityControl6.Slot0.kV = 0.15;
+    VelocityControl6.Slot0.kP = 0.15;
     VelocityControl6.Slot0.kI = 0;
     VelocityControl6.Slot0.kD = 0;
 
@@ -134,8 +135,8 @@ public class Shooter extends SubsystemBase {
     kFeeder.getConfigurator().apply(VelocityControl6);
 
     // PID Configs
-    hoodConfig.Slot0.kP = 0.3;
-    hoodConfig.Slot0.kI = 0.1;
+    hoodConfig.Slot0.kP = 0.4;
+    hoodConfig.Slot0.kI = 0.05;
     hoodConfig.Slot0.kD = 0.0;
 
     // Apply PID Configs

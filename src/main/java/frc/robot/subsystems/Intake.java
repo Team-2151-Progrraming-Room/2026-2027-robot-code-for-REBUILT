@@ -38,7 +38,7 @@ public class Intake extends SubsystemBase {
     VelocityControl1.Slot0.kP = 0.15; // An error of 1 rps results in 0.11 V output
     VelocityControl1.Slot0.kI = 0; // no output for integrated error
     VelocityControl1.Slot0.kD = 0;
-     
+
     configs.withCurrentLimits(
         IntakeLimitConfigs); // Current have this commented out so that the temp current limits
     // don't get applied
@@ -51,14 +51,14 @@ public class Intake extends SubsystemBase {
     IntakeStatus = new Color(0, 255, 0);
     SmartDashboard.putString("IntakeStatus", IntakeStatus.toHexString());
     final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-    m_IntakeMotor.setControl(m_request.withVelocity(-30).withFeedForward(0.2));
+    m_IntakeMotor.setControl(m_request.withVelocity(-60).withFeedForward(0.2));
   }
 
   public void IntakeIdle() {
     IntakeStatus = new Color(255, 0, 0);
     SmartDashboard.putString("IntakeStatus", IntakeStatus.toHexString());
     final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-    m_IntakeMotor.setControl(m_request.withVelocity(-10).withFeedForward(0.2));
+    m_IntakeMotor.setControl(m_request.withVelocity(-15).withFeedForward(0.2));
   }
 
   public void IntakeOff() {
@@ -71,7 +71,7 @@ public class Intake extends SubsystemBase {
     IntakeStatus = new Color(255, 255, 0);
     SmartDashboard.putString("IntakeStatus", IntakeStatus.toHexString());
     final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-    m_IntakeMotor.setControl(m_request.withVelocity(30).withFeedForward(0.2));
+    m_IntakeMotor.setControl(m_request.withVelocity(60).withFeedForward(0.2));
   }
 
   // Commands

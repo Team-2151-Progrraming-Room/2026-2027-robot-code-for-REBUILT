@@ -57,12 +57,8 @@ public final class Constants {
   public static class IntakeConstants {
     public static final int kIntakeMotor = 14;
 
-    public static final int kIntakeStatorCurrentLimit =
-        30; // 10 Amps should be good for stator according to Mr. Zog. Regardless, might be
-    // temporary.
-    public static final int kIntakeSupplyCurrentLimit =
-        30; // Supply should at the very least the same value as stator, given that it determ
-    // how much current can be drawn from the battery.
+    public static final int kIntakeStatorCurrentLimit = 60;
+    public static final int kIntakeSupplyCurrentLimit = 60;
   }
 
   public static class ShooterConstants {

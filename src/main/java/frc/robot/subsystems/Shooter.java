@@ -198,7 +198,7 @@ public class Shooter extends SubsystemBase {
     kShooterBottomRear.setControl(m_request4.withVelocity(40).withFeedForward(0.2));
 
     final VelocityVoltage m_request5 = new VelocityVoltage(0).withSlot(0);
-    kFeeder.setControl(m_request5.withVelocity(-30).withFeedForward(0.2));
+    kFeeder.setControl(m_request5.withVelocity(-60).withFeedForward(0.2));
 
     Color ShooterStatus = new Color(0, 255, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());
@@ -223,7 +223,7 @@ public class Shooter extends SubsystemBase {
     kShooterBottomRear.setControl(m_request4.withVelocity(90).withFeedForward(0.2));
 
     final VelocityVoltage m_request5 = new VelocityVoltage(0).withSlot(0);
-    kFeeder.setControl(m_request5.withVelocity(-30).withFeedForward(0.2));
+    kFeeder.setControl(m_request5.withVelocity(-60).withFeedForward(0.2));
 
     Color ShooterStatus = new Color(255, 255, 0);
     SmartDashboard.putString("ShooterStatus", ShooterStatus.toHexString());

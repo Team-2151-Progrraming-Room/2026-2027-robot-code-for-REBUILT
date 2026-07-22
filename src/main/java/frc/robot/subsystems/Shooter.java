@@ -67,12 +67,12 @@ public class Shooter extends SubsystemBase {
     kFeeder.stopMotor();
 
     // Config Current limit
-    configs.withSupplyCurrentLimit(40);
-    configs.withStatorCurrentLimit(40);
-    configslower.withSupplyCurrentLimit(30);
-    configslower.withStatorCurrentLimit(30);
-    config.withSupplyCurrentLimit(30);
-    config.withStatorCurrentLimit(30);
+    configs.withSupplyCurrentLimit(60);
+    configs.withStatorCurrentLimit(60);
+    configslower.withSupplyCurrentLimit(40);
+    configslower.withStatorCurrentLimit(40);
+    config.withSupplyCurrentLimit(60);
+    config.withStatorCurrentLimit(60);
 
     // Minion configs with current limits
     hey2.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
@@ -183,19 +183,19 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putString("Shooter Mode", "Shoot Mode");
 
     final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-    kIndexer.setControl(m_request.withVelocity(20).withFeedForward(0.2));
+    kIndexer.setControl(m_request.withVelocity(40).withFeedForward(0.2));
 
     final VelocityVoltage m_request1 = new VelocityVoltage(0).withSlot(0);
-    kShooterTopFront.setControl(m_request1.withVelocity(70).withFeedForward(0.2));
+    kShooterTopFront.setControl(m_request1.withVelocity(40).withFeedForward(0.2));
 
     final VelocityVoltage m_request2 = new VelocityVoltage(0).withSlot(0);
-    kShooterTopRear.setControl(m_request2.withVelocity(-70).withFeedForward(0.2));
+    kShooterTopRear.setControl(m_request2.withVelocity(-40).withFeedForward(0.2));
 
     final VelocityVoltage m_request3 = new VelocityVoltage(0).withSlot(0);
-    kShooterBottomFront.setControl(m_request3.withVelocity(-90).withFeedForward(0.2));
+    kShooterBottomFront.setControl(m_request3.withVelocity(-60).withFeedForward(0.2));
 
     final VelocityVoltage m_request4 = new VelocityVoltage(0).withSlot(0);
-    kShooterBottomRear.setControl(m_request4.withVelocity(90).withFeedForward(0.2));
+    kShooterBottomRear.setControl(m_request4.withVelocity(60).withFeedForward(0.2));
 
     final VelocityVoltage m_request5 = new VelocityVoltage(0).withSlot(0);
     kFeeder.setControl(m_request5.withVelocity(-40).withFeedForward(0.2));
@@ -208,19 +208,19 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putString("Shooter Mode", "Pass Mode");
 
     final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-    kIndexer.setControl(m_request.withVelocity(20).withFeedForward(0.2));
+    kIndexer.setControl(m_request.withVelocity(40).withFeedForward(0.2));
 
     final VelocityVoltage m_request1 = new VelocityVoltage(0).withSlot(0);
-    kShooterTopFront.setControl(m_request1.withVelocity(50).withFeedForward(0.2));
+    kShooterTopFront.setControl(m_request1.withVelocity(70).withFeedForward(0.2));
 
     final VelocityVoltage m_request2 = new VelocityVoltage(0).withSlot(0);
-    kShooterTopRear.setControl(m_request2.withVelocity(-50).withFeedForward(0.2));
+    kShooterTopRear.setControl(m_request2.withVelocity(-70).withFeedForward(0.2));
 
     final VelocityVoltage m_request3 = new VelocityVoltage(0).withSlot(0);
-    kShooterBottomFront.setControl(m_request3.withVelocity(-70).withFeedForward(0.2));
+    kShooterBottomFront.setControl(m_request3.withVelocity(-90).withFeedForward(0.2));
 
     final VelocityVoltage m_request4 = new VelocityVoltage(0).withSlot(0);
-    kShooterBottomRear.setControl(m_request4.withVelocity(70).withFeedForward(0.2));
+    kShooterBottomRear.setControl(m_request4.withVelocity(90).withFeedForward(0.2));
 
     final VelocityVoltage m_request5 = new VelocityVoltage(0).withSlot(0);
     kFeeder.setControl(m_request5.withVelocity(-40).withFeedForward(0.2));

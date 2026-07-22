@@ -186,16 +186,16 @@ public class Shooter extends SubsystemBase {
     kIndexer.setControl(m_request.withVelocity(40).withFeedForward(0.2));
 
     final VelocityVoltage m_request1 = new VelocityVoltage(0).withSlot(0);
-    kShooterTopFront.setControl(m_request1.withVelocity(20).withFeedForward(0.2));
+    kShooterTopFront.setControl(m_request1.withVelocity(30).withFeedForward(0.2));
 
     final VelocityVoltage m_request2 = new VelocityVoltage(0).withSlot(0);
-    kShooterTopRear.setControl(m_request2.withVelocity(-20).withFeedForward(0.2));
+    kShooterTopRear.setControl(m_request2.withVelocity(-30).withFeedForward(0.2));
 
     final VelocityVoltage m_request3 = new VelocityVoltage(0).withSlot(0);
-    kShooterBottomFront.setControl(m_request3.withVelocity(-30).withFeedForward(0.2));
+    kShooterBottomFront.setControl(m_request3.withVelocity(-40).withFeedForward(0.2));
 
     final VelocityVoltage m_request4 = new VelocityVoltage(0).withSlot(0);
-    kShooterBottomRear.setControl(m_request4.withVelocity(30).withFeedForward(0.2));
+    kShooterBottomRear.setControl(m_request4.withVelocity(40).withFeedForward(0.2));
 
     final VelocityVoltage m_request5 = new VelocityVoltage(0).withSlot(0);
     kFeeder.setControl(m_request5.withVelocity(-40).withFeedForward(0.2));

@@ -162,7 +162,7 @@ public class Shooter extends SubsystemBase {
   public void hoodShootingPosition() {
     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
     if (shootingOrPassing == false) {
-      kHood.setControl(m_request.withPosition(-4));
+      kHood.setControl(m_request.withPosition(1));
       shootingOrPassing = true;
     }
   }

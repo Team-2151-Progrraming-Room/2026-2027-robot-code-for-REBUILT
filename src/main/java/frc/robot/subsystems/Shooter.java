@@ -135,9 +135,9 @@ public class Shooter extends SubsystemBase {
     kFeeder.getConfigurator().apply(VelocityControl6);
 
     // PID Configs
-    hoodConfig.Slot0.kP = 0.2;
-    hoodConfig.Slot0.kI = 0.05;
-    hoodConfig.Slot0.kD = 0.0;
+    hoodConfig.Slot0.kP = 0.3;
+    hoodConfig.Slot0.kI = 0.1;
+    hoodConfig.Slot0.kD = 0.2;
 
     // Apply PID Configs
     kHood.getConfigurator().apply(hoodConfig);
@@ -162,7 +162,7 @@ public class Shooter extends SubsystemBase {
   public void hoodShootingPosition() {
     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
     if (shootingOrPassing == false) {
-      kHood.setControl(m_request.withPosition(-4.5));
+      kHood.setControl(m_request.withPosition(-4));
       shootingOrPassing = true;
     }
   }
@@ -170,7 +170,7 @@ public class Shooter extends SubsystemBase {
   public void hoodPassingPosition() {
     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
     if (shootingOrPassing == true) {
-      kHood.setControl(m_request.withPosition(12));
+      kHood.setControl(m_request.withPosition(14));
       shootingOrPassing = false;
     }
   }

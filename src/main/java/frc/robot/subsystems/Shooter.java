@@ -135,7 +135,7 @@ public class Shooter extends SubsystemBase {
     kFeeder.getConfigurator().apply(VelocityControl6);
 
     // PID Configs
-    hoodConfig.Slot0.kP = 0.3;
+    hoodConfig.Slot0.kP = 0.6;
     hoodConfig.Slot0.kI = 0.1;
     hoodConfig.Slot0.kD = 0.2;
 
@@ -167,7 +167,7 @@ public class Shooter extends SubsystemBase {
     }
   }
 
-  public void hoodPassingPosition() {
+  public void hoodPassingPosition() { 
     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
     if (shootingOrPassing == true) {
       kHood.setControl(m_request.withPosition(14));

@@ -167,10 +167,10 @@ public class Shooter extends SubsystemBase {
     }
   }
 
-  public void hoodPassingPosition() { 
+  public void hoodPassingPosition() {
     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
     if (shootingOrPassing == true) {
-      kHood.setControl(m_request.withPosition(14));
+      kHood.setControl(m_request.withPosition(16));
       shootingOrPassing = false;
     }
   }

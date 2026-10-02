@@ -8,7 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import frc.robot.subsystems.drive.Drive;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.List;
 import java.util.Optional;
 import org.photonvision.EstimatedRobotPose;
@@ -17,7 +17,7 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-public class Vision {
+public class Vision extends SubsystemBase {
   private final PhotonCamera cameraFR;
   private final PhotonCamera cameraFL;
   private final PhotonCamera cameraBR;
@@ -26,8 +26,7 @@ public class Vision {
   private final PhotonPoseEstimator photonEstimatorFL;
   private final PhotonPoseEstimator photonEstimatorBR;
   private final PhotonPoseEstimator photonEstimatorBL;
-  private Matrix<N3, N1> curStdDevs;
-  private Drive drive;
+  private Matrix<N3, N1> curStdDevs = kSingleTagStdDevs;
   private final EstimateConsumer estConsumer;
 
   // Simulation
@@ -50,6 +49,7 @@ public class Vision {
     photonEstimatorBL = new PhotonPoseEstimator(kTagLayout, kRobotToBackLeftCamera);
   }
 
+  @Override
   public void periodic() {
     Optional<EstimatedRobotPose> visionEst = Optional.empty();
     for (var result : cameraFR.getAllUnreadResults()) {
@@ -60,14 +60,15 @@ public class Vision {
       updateEstimationStdDevs(visionEst, result.getTargets());
 
       if (Robot.isSimulation()) {
-        visionEst.ifPresentOrElse(
-            est ->
-                getSimDebugField()
-                    .getObject("VisionEstimation")
-                    .setPose(est.estimatedPose.toPose2d()),
-            () -> {
-              getSimDebugField().getObject("VisionEstimation").setPoses();
-            });
+        var simField = getSimDebugField();
+
+        if (simField != null) {
+          visionEst.ifPresentOrElse(
+              est -> simField.getObject("VisionEstimation").setPose(est.estimatedPose.toPose2d()),
+              () -> {
+                simField.getObject("VisionEstimation").setPoses();
+              });
+        }
       }
 
       visionEst.ifPresent(
@@ -76,8 +77,6 @@ public class Vision {
             var estStdDevs = getEstimationStdDevs();
 
             estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
-            drive.addVisionMeasurement(
-                est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
           });
     }
     for (var result : cameraFL.getAllUnreadResults()) {
@@ -88,14 +87,15 @@ public class Vision {
       updateEstimationStdDevs(visionEst, result.getTargets());
 
       if (Robot.isSimulation()) {
-        visionEst.ifPresentOrElse(
-            est ->
-                getSimDebugField()
-                    .getObject("VisionEstimation")
-                    .setPose(est.estimatedPose.toPose2d()),
-            () -> {
-              getSimDebugField().getObject("VisionEstimation").setPoses();
-            });
+        var simField = getSimDebugField();
+
+        if (simField != null) {
+          visionEst.ifPresentOrElse(
+              est -> simField.getObject("VisionEstimation").setPose(est.estimatedPose.toPose2d()),
+              () -> {
+                simField.getObject("VisionEstimation").setPoses();
+              });
+        }
       }
 
       visionEst.ifPresent(
@@ -104,8 +104,6 @@ public class Vision {
             var estStdDevs = getEstimationStdDevs();
 
             estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
-            drive.addVisionMeasurement(
-                est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
           });
     }
     for (var result : cameraBL.getAllUnreadResults()) {
@@ -116,14 +114,15 @@ public class Vision {
       updateEstimationStdDevs(visionEst, result.getTargets());
 
       if (Robot.isSimulation()) {
-        visionEst.ifPresentOrElse(
-            est ->
-                getSimDebugField()
-                    .getObject("VisionEstimation")
-                    .setPose(est.estimatedPose.toPose2d()),
-            () -> {
-              getSimDebugField().getObject("VisionEstimation").setPoses();
-            });
+        var simField = getSimDebugField();
+
+        if (simField != null) {
+          visionEst.ifPresentOrElse(
+              est -> simField.getObject("VisionEstimation").setPose(est.estimatedPose.toPose2d()),
+              () -> {
+                simField.getObject("VisionEstimation").setPoses();
+              });
+        }
       }
 
       visionEst.ifPresent(
@@ -132,8 +131,6 @@ public class Vision {
             var estStdDevs = getEstimationStdDevs();
 
             estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
-            drive.addVisionMeasurement(
-                est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
           });
     }
     for (var result : cameraBR.getAllUnreadResults()) {
@@ -144,14 +141,15 @@ public class Vision {
       updateEstimationStdDevs(visionEst, result.getTargets());
 
       if (Robot.isSimulation()) {
-        visionEst.ifPresentOrElse(
-            est ->
-                getSimDebugField()
-                    .getObject("VisionEstimation")
-                    .setPose(est.estimatedPose.toPose2d()),
-            () -> {
-              getSimDebugField().getObject("VisionEstimation").setPoses();
-            });
+        var simField = getSimDebugField();
+
+        if (simField != null) {
+          visionEst.ifPresentOrElse(
+              est -> simField.getObject("VisionEstimation").setPose(est.estimatedPose.toPose2d()),
+              () -> {
+                simField.getObject("VisionEstimation").setPoses();
+              });
+        }
       }
 
       visionEst.ifPresent(
@@ -160,8 +158,6 @@ public class Vision {
             var estStdDevs = getEstimationStdDevs();
 
             estConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
-            drive.addVisionMeasurement(
-                est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
           });
     }
   }
@@ -187,55 +183,13 @@ public class Vision {
 
       // Precalculation - see how many tags we found, and calculate an average-distance metric
       for (var tgt : targets) {
-        var tagPoseFR = photonEstimatorFR.getFieldTags().getTagPose(tgt.getFiducialId());
+        var tagPose = kTagLayout.getTagPose(tgt.getFiducialId());
 
-        if (tagPoseFR.isEmpty()) continue;
+        if (tagPose.isEmpty()) continue;
         numTags++;
 
         avgDist +=
-            tagPoseFR
-                .get()
-                .toPose2d()
-                .getTranslation()
-                .getDistance(estimatedPose.get().estimatedPose.toPose2d().getTranslation());
-      }
-
-      for (var tgt : targets) {
-        var tagPoseFL = photonEstimatorFL.getFieldTags().getTagPose(tgt.getFiducialId());
-
-        if (tagPoseFL.isEmpty()) continue;
-        numTags++;
-
-        avgDist +=
-            tagPoseFL
-                .get()
-                .toPose2d()
-                .getTranslation()
-                .getDistance(estimatedPose.get().estimatedPose.toPose2d().getTranslation());
-      }
-
-      for (var tgt : targets) {
-        var tagPoseBR = photonEstimatorBR.getFieldTags().getTagPose(tgt.getFiducialId());
-
-        if (tagPoseBR.isEmpty()) continue;
-        numTags++;
-
-        avgDist +=
-            tagPoseBR
-                .get()
-                .toPose2d()
-                .getTranslation()
-                .getDistance(estimatedPose.get().estimatedPose.toPose2d().getTranslation());
-      }
-
-      for (var tgt : targets) {
-        var tagPoseBL = photonEstimatorBL.getFieldTags().getTagPose(tgt.getFiducialId());
-
-        if (tagPoseBL.isEmpty()) continue;
-        numTags++;
-
-        avgDist +=
-            tagPoseBL
+            tagPose
                 .get()
                 .toPose2d()
                 .getTranslation()
@@ -272,17 +226,18 @@ public class Vision {
   // ----- Simulation
 
   public void simulationPeriodic(Pose2d robotSimPose) {
+    if (visionSim == null) return;
     visionSim.update(robotSimPose);
   }
 
   /** Reset pose history of the robot in the vision system simulation. */
   public void resetSimPose(Pose2d pose) {
-    if (Robot.isSimulation()) visionSim.resetRobotPose(pose);
+    if (Robot.isSimulation() && visionSim != null) visionSim.resetRobotPose(pose);
   }
 
   /** A Field2d for visualizing our robot and objects on the field. */
   public Field2d getSimDebugField() {
-    if (!Robot.isSimulation()) return null;
+    if (!Robot.isSimulation() || visionSim == null) return null;
     return visionSim.getDebugField();
   }
 

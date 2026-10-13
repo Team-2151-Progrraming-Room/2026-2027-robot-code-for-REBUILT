@@ -26,6 +26,7 @@ import frc.robot.generated.TunerConstantsBLBR;
 import frc.robot.subsystems.GoToHub;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Touchboard.ActionButton;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -45,7 +46,6 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
-  private final Vision vision;
   private final Shooter shooterCommands = new Shooter();
   private final GoToHub goToHub = new GoToHub();
 
@@ -112,7 +112,6 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstantsBLBR.BackLeft),
                 new ModuleIOTalonFX(TunerConstantsBLBR.BackRight));
 
-        vision = new Vision(drive::addVisionMeasurement);
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -143,7 +142,6 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstantsBLBR.BackLeft),
                 new ModuleIOSim(TunerConstantsBLBR.BackRight));
 
-        vision = new Vision(drive::addVisionMeasurement);
         break;
 
       default:
@@ -156,7 +154,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
 
-        vision = new Vision(drive::addVisionMeasurement);
+
         break;
     }
 

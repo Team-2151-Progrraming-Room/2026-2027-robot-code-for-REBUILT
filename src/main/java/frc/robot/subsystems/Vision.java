@@ -19,7 +19,7 @@ public class Vision extends SubsystemBase {
     private PhotonPipelineResult m_latestResult = new PhotonPipelineResult();
 
     @Override
-    public void periodic(){
+    public void periodic(){        
         m_latestResult = m_backRightCamera.getLatestResult();
         m_latestResult = m_backLeftCamera.getLatestResult();
         m_latestResult = m_frontRightCamera.getLatestResult();
@@ -41,10 +41,8 @@ public class Vision extends SubsystemBase {
         
         return Optional.of(m_latestResult.getBestTarget());
     }
-}
 
-
-   PhotonTrackedTarget target = result.getBestTarget();
+    PhotonTrackedTarget target = m_latestResult.getBestTarget();
 
    int tagId = target.getFiducialId();
 
@@ -57,11 +55,14 @@ public class Vision extends SubsystemBase {
    double pitch = target.getPitch();
    double area = target.getArea();
 
-   for (PhotonTrackedTarget t : result.getTargets()) {
+   for (PhotonTrackedTarget t : m_latestResult.getTargets()) {
        if (t.getFiducialId() == 7) {
+
        }
    } 
 
-   double captureTimestamp = result.getTimestampSeconds();
+   double captureTimestamp = m_latestResult.getTimestampSeconds();
+}
 
 
+  

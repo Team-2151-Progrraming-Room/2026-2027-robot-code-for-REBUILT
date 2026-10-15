@@ -55,12 +55,6 @@ public class Vision extends SubsystemBase {
    double pitch = target.getPitch();
    double area = target.getArea();
 
-   for (PhotonTrackedTarget t : m_latestResult.getTargets()) {
-       if (t.getFiducialId() == 7) {
-
-       }
-   } 
-
    double captureTimestamp = m_latestResult.getTimestampSeconds();
 }
 

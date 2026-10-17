@@ -106,7 +106,7 @@ public class Vision extends SubsystemBase {
                 estimateOpt = m_poseEstimator.estimateLowestAmbiguityPose(result);
             }
 
-        m_latestResult = m_camera2.getLatestResult();
+        m_latestResult2 = m_camera2.getLatestResult();
         for (var result2 : m_camera2.getAllUnreadResults()) {
             estimateOpt = m_poseEstimator2.estimateCoprocMultiTagPose(result2);
             if (estimateOpt.isEmpty()) {
@@ -114,7 +114,7 @@ public class Vision extends SubsystemBase {
             }
         }
 
-        m_latestResult = m_camera3.getLatestResult();
+        m_latestResult3 = m_camera3.getLatestResult();
         for (var result3 : m_camera3.getAllUnreadResults()) {
             estimateOpt = m_poseEstimator3.estimateCoprocMultiTagPose(result3);
             if (estimateOpt.isEmpty()) {
@@ -122,7 +122,7 @@ public class Vision extends SubsystemBase {
             }
         }
 
-        m_latestResult = m_camera4.getLatestResult();
+        m_latestResult4 = m_camera4.getLatestResult();
         for (var result4 : m_camera4.getAllUnreadResults()) {
             estimateOpt = m_poseEstimator4.estimateCoprocMultiTagPose(result4);
             if (estimateOpt.isEmpty()) {
